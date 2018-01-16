@@ -20,7 +20,7 @@ html,body{
   height: 100%;
   width: 100%;
   // background-color: #F5F5F5;
-  font-size: 0.12rem;
+  font-size: 0.24rem;
 }
 
 // /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
@@ -71,4 +71,6 @@ textarea { -webkit-appearance: none;}
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+// .mint-cell-wrapper{
+//   padding:0 0;
+// }

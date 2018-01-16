@@ -7,8 +7,11 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import './config/rem'
 import axios from './config/http'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(MintUI)
+Vue.use(ElementUI)
 Vue.use(axios)
 Vue.config.productionTip = false
 

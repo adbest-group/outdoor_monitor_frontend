@@ -36,6 +36,7 @@ import jQuery from 'jquery'
         weiBoBridge: function() {
             window.WeiboJSBridge.invoke('scanQRCode', null, function(params) {
                 //得到扫码的结果
+                // _this.$router.push({path:'/monitorInfo'})
                 $('.result-qrcode').append(params.result + '<br/>');
             });
         },
@@ -61,7 +62,8 @@ import jQuery from 'jquery'
                 qrcode.decode(oFREvent.target.result);
                 qrcode.callback = function(data) {
                     //得到扫码的结果
-                    $('.result-qrcode').append(data + '<br/>');
+                    location.href = "http://172.16.88.167:8080/#/monitorInfo?data="+data
+                    // $('.result-qrcode').html(data + '<br/>');
                 };
             };
 

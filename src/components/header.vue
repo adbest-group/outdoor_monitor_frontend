@@ -12,7 +12,9 @@ export default {
 
 <style lang="scss">
   .header{
-    height: 64px;
+    height: 0.64rem;
+    line-height: 0.64rem;
+    padding:0 0.2rem;
     background:#000;
     .companyInfo{
       color:#fff;
