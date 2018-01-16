@@ -1,9 +1,6 @@
 <template>
   <div class="monitorInfo">
     <back-up></back-up>
-    <div class="result-qrcode">
-
-    </div>
     <div class="alertContnet">
       <span class="closeBtn" @click="close">X</span>
       <div class="img">

@@ -7,6 +7,8 @@ import Login from '@/components/login'
 import Photo from '@/components/photo'
 import PhotoCheck from '@/components/photoCheck'
 import QuestionDetail from '@/components/questionDetail'
+import ErrorCheck from '@/components/errorCheck'
+import ErrorPhoto from '@/components/errorPhoto'
 
 Vue.use(Router)
 
@@ -47,9 +49,19 @@ export default new Router({
       component: QuestionDetail
     },
     {
-      path: '/PhotoCheck',
+      path: '/photoCheck',
       name: 'PhotoCheck',
       component: PhotoCheck
+    },
+    {
+      path: '/errorCheck',
+      name: 'ErrorCheck',
+      component: ErrorCheck
+    },
+    {
+      path: '/errorPhoto',
+      name: 'ErrorPhoto',
+      component: ErrorPhoto
     }
   ]
 })
