@@ -6,8 +6,8 @@
       <mt-field label="验证码" v-model="form.captcha">
         <img class="capImg" src="">
       </mt-field>
-      <mt-button @click.native="login" type="primary">登陆</mt-button>
     </div>
+    <mt-button @click.native="login" type="primary">登陆</mt-button>
   </div>
 </template>
 <script>
@@ -101,11 +101,10 @@ export default {
     }
     .mint-cell{
     }
-    .mint-button{
-      margin-top:.7rem;
-      width:100%;
-    }
   }
-
+  .mint-button{
+    margin-top:.7rem;
+    width:100%;
+  }
 }
 </style>
