@@ -1,6 +1,6 @@
 <template>
   <div class="header clearfix">
-    <div class="companyInfo">{{this.realName}}{{this.company}}</div><span v-if="userType === '1'" class="awardInfo">{{奖品}}</span>
+    <div class="companyInfo"><p class="realName">{{this.realName}}</p><p class="company">{{this.company}}</p></div><span v-if="userType === '1'" class="awardInfo">奖品</span>
   </div>
 </template>
 
@@ -28,8 +28,12 @@ export default {
     padding:0 0.2rem;
     background:#000;
     .companyInfo{
+      padding-left:.5rem;
+      width:3rem;
       color:#fff;
-      float:left
+      float:left;
+      height: 0.32rem;
+      line-height: 0.32rem;
     }
     .awardInfo{
       color:#fff;

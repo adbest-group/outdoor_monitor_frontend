@@ -1,20 +1,7 @@
 <template>
+<!-- 此页面暂时不使用 -->
   <div class="questionDetail">
     <p class="title">问题详情</p>
-    <!-- <ul class="ul">
-      <li class="li">
-        <span>内容不正确</span>
-      </li>
-      <li class="li">
-        <span>结构有问题</span>
-      </li>
-      <li class="li">
-        <span>编号不存在</span>
-      </li>
-      <li class="li">
-        <span>灯光不亮</span>
-      </li>
-    </ul> -->
     <mt-checklist
       align="right"
       v-model="value"

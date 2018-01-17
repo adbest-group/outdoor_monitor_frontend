@@ -1,7 +1,9 @@
 const state = {
   currentUser: {
     userId: null,
-    userType: '1'
+    userType: '1',
+    realName: 'libin',
+    company: '公司姓名'
   },
   token: ''
 }
