@@ -17,7 +17,7 @@
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <!-- 执行中列表 -->
-
+        <list-cell :list='taskList.executing'></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="3" class="verifiedMission">
         <!-- 已审核列表 -->
@@ -29,12 +29,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <mt-cell label="已审核通过" title="标题文字" to="/photoCheck?aaa=1" is-link>
-          <span style="color: green">查看</span>
-        </mt-cell>
-        <mt-cell label="未审核通过" title="标题文字" to="/photoCheck" is-link>
-          <span style="color: green">查看</span>
-        </mt-cell>
+        <list-cell :list='taskList.checked'></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
   </div>
@@ -69,7 +64,7 @@ export default {
           'ad_name': '南京西路地铁灯箱-1',
           'monitor_time': '2018/01/16',
           'ad_location': '人民广场候车亭-1',
-          'ad_status': '已派发',
+          'ad_status': '2', // 待执行
           'img_url_list': ['http://xxx/1.jpg']
         }],
         'executing': [{
@@ -79,7 +74,7 @@ export default {
           'ad_name': '南京西路地铁灯箱-1',
           'monitor_time': '2018/01/16',
           'ad_location': '人民广场候车亭-1',
-          'ad_status': '等待审核',
+          'ad_status': '3', // 审核中
           'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
         }],
         'checked': [{
@@ -89,7 +84,7 @@ export default {
           'ad_name': '南京西路地铁灯箱-1',
           'monitor_time': '2018/01/16',
           'ad_location': '人民广场候车亭-1',
-          'ad_status': '未通过审核',
+          'ad_status': '5', // 4：通过审核 5：未通过审核
           'reason': '驳回理由：照片不清晰',
           'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
         }]
