@@ -17,9 +17,7 @@
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <!-- 执行中列表 -->
-        <mt-cell title="标题文字" to="/monitor" is-link>
-          <span style="color: green">查看</span>
-        </mt-cell>
+
       </mt-tab-container-item>
       <mt-tab-container-item id="3" class="verifiedMission">
         <!-- 已审核列表 -->

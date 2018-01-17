@@ -61,7 +61,7 @@ export default {
       img2Dis: false,
       img3Dis: false,
       img4Dis: false,
-      imgArr: [], // 存放四张图片
+      imgArr: [], // 存放四张图片//暂时无用
       token: '',
       userId: ''
     }
@@ -89,30 +89,52 @@ export default {
       input.click()
     },
     taskSubmit () { // 任务提交方法
-      this.axios({
-        url: GLOBAL.URL.TASK_SUBMIT,
-        method: 'post',
-        data: {
-          'token': this.token,
-          'type': '1', // 1：监测任务 2：纠错任务
-          'activity_id': '234', // 活动ID
-          'ad_location_id': '123', // 广告位置ID
-          'user_id': this.userId,
-          'task_id': '123', // 如果为纠错任务该字段为空
-          'lon': '120.123',
-          'lat': '32.123',
-          'feedback': {
-            'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
-            'other': '其他问题'
-          }
-        }
-      }).then((r) => {
-        if (r.status === '0') {
-          console.log('提交成功', r)
-          this.$router.push({path: '/index'})// 跳转首页
-        } else {
-          console.log('提交失败', r)
-        }
+    // 提交前看一下图片是否是四张
+      console.log(this.imgArr.length)
+      if (this.imgArr.length !== 4) {
+        return false
+      }
+      let formData = new FormData()
+      for (let i of 4) {
+        let doc = document.querySelector('#img' + i)
+        formData.append('pic[]', doc.files[0])
+      }
+      // data: {
+      //   'token': this.token,
+      //   'type': '1', // 1：监测任务 2：纠错任务
+      //   'activity_id': '234', // 活动ID
+      //   'ad_location_id': '123', // 广告位置ID
+      //   'user_id': this.userId,
+      //   'task_id': '123', // 如果为纠错任务该字段为空
+      //   'lon': '120.123',
+      //   'lat': '32.123',
+      //   'feedback': {
+      //     'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
+      //     'other': '其他问题'
+      //   }
+      // }
+      formData.append('token', this.token)
+      formData.append('type', '1')
+      formData.append('activity_id', '234')
+      formData.append('ad_location_id', '123')
+      formData.append('user_id', this.userId)
+      formData.append('task_id', '123')
+      formData.append('lon', '120.123')
+      formData.append('lat', '32.123')
+      formData.append('feedback', {
+        'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
+        'other': '其他问题'
+      })
+      return new Promise((resolve, reject) => {
+        this.axios({
+          url: GLOBAL.URL.TASK_SUBMIT,
+          method: 'post',
+          contentType: 'multipart/form-data',
+          data: formData
+
+        }).then((r) => {
+          resolve(r.status)
+        })
       })
     },
     handleClick () { // 任务提交动作
@@ -129,7 +151,14 @@ export default {
             message: '待审核通过后发放奖励',
             confirmButtonText: '确定'
           }).then((val) => {
-            this.$router.push({path: '/index'})
+            // 提交任务并跳到首页
+            this.taskSubmit().then(r => {
+              if (r === '0') {
+                this.$router.push({path: '/index'})
+              } else {
+                console.log('提交失败')
+              }
+            })
           })
         } else { // 是
           this.$router.push({path: '/questionDetail'})

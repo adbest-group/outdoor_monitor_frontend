@@ -13,10 +13,11 @@
 </template>
 <script>
 import BackUp from './backUp.vue'
+import { isJSON } from '../config/utils'
 export default {
   data () {
     return {
-      info: ''
+      info: {}// 二维码中的json格式的信息
     }
   },
   methods: {
@@ -33,7 +34,13 @@ export default {
   created () {
     if (this.$route.query.data) {
       console.log(this.$route.query.data)
-      this.info = this.$route.query.data// 获取二维码信息
+      let data = this.$route.query.data// 获取二维码信息
+      // 将此信息解析为json
+      if (isJSON(data)) {
+        this.info = JSON.parse(data)
+      } else {
+        console.log('json格式不正确')
+      }
     }
   }
 }
