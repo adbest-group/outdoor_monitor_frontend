@@ -6,7 +6,7 @@
         v-if="list"
         v-for="cell in list"
         :key="cell.task_id"
-        @click="toLink">
+        @click="toLink(cell.ad_status)">
 
         <div v-if="showStatus(cell.ad_status)"
              class="ad-status"
@@ -36,8 +36,16 @@ export default {
     }
   },
   methods: {
-    toLink () { // 跳转链接
-      this.$router.push({path: '/monitor'})
+    toLink (status) { // 跳转链接
+      if (this.type === 1) {
+        if (status === '2') { // 监测
+          this.$router.push({path: '/monitor'})
+        } else {
+          this.$router.push({path: '/photoCheck'})
+        }
+      } else { // 2纠错，只能查看
+        this.$router.push({path: '/photoCheck'})
+      }
     },
     statusClass (status) { // 状态样式
       if (this.type === 1) {
