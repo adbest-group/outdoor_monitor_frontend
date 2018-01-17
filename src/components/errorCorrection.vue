@@ -2,8 +2,8 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="2">纠错处理中</mt-tab-item>
-      <mt-tab-item id="3">已处理完成</mt-tab-item>
+      <mt-tab-item id="2" v-show="userType === 0">纠错处理中</mt-tab-item>
+      <mt-tab-item id="3" v-show="userType === 0">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">

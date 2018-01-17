@@ -90,13 +90,13 @@ export default {
     },
     taskSubmit () { // 任务提交方法
     // 提交前看一下图片是否是四张
-      console.log(this.imgArr.length)
-      if (this.imgArr.length !== 4) {
-        return false
-      }
+      console.log(this.imgArr)
+      // if (this.imgArr.length !== 4) {
+      //   return false
+      // }
       let formData = new FormData()
-      for (let i of 4) {
-        let doc = document.querySelector('#img' + i)
+      for (let i = 1; i < 5; i++) {
+        let doc = document.querySelector('#fileBtn' + i)
         formData.append('pic[]', doc.files[0])
       }
       // data: {
@@ -125,6 +125,7 @@ export default {
         'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
         'other': '其他问题'
       })
+      console.log(formData)
       return new Promise((resolve, reject) => {
         this.axios({
           url: GLOBAL.URL.TASK_SUBMIT,

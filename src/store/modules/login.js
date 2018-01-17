@@ -2,7 +2,7 @@
 const state = {
   currentUser: {
     userId: null,
-    userType: '0'
+    userType: '1'
   },
   token: ''
 }
