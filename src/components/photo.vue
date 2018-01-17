@@ -53,6 +53,7 @@
 </template>
 <script>
 import { MessageBox } from 'mint-ui'
+import GLOBAL from '../config/global'
 export default {
   data () {
     return {
@@ -85,7 +86,31 @@ export default {
       let input = document.querySelector('#fileBtn' + val)
       input.click()
     },
-    handleClick () {
+    taskSubmit () { // 任务提交方法
+      this.axios({
+        url: GLOBAL.URL.TASK_SUBMIT,
+        method: 'post',
+        data: {
+          'type': '1', // 1：监测任务 2：纠错任务
+          'user_id': '123',
+          'task_id': '123', // 如果为纠错任务该字段为空
+          'longitude': '120.123',
+          'latitude': '32.123',
+          'feedback': {
+            'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
+            'other': '其他问题'
+          }
+        }
+      }).then((r) => {
+        if (r.status === '0') {
+          console.log('提交成功', r)
+          this.$router.push({path: '/index'})// 跳转首页
+        } else {
+          console.log('提交失败', r)
+        }
+      })
+    },
+    handleClick () { // 任务提交动作
       MessageBox({
         title: '问题反馈',
         message: '您监测的广告牌是否有问题?',

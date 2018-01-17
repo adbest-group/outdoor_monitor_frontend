@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+import GLOBAL from '../config/global'
 export default {
   data () {
     return {
@@ -18,13 +19,49 @@ export default {
         username: '',
         password: '',
         captcha: ''
-      }
+      },
+      vcode_img: '',
+      imei: ''
     }
   },
   methods: {
     login () {
       this.$router.push({path: '/index'})
+    },
+    loginMethod () {
+      this.axios({
+        url: GLOBAL.URL.Login,
+        method: 'post',
+        data: {
+          'imei': this.imei,
+          'user_id': this.form.username,
+          'password': this.form.password,
+          'vcode': this.form.captcha
+        }
+      }).then((r) => {
+        console.log('登陆成功', r)
+        this.$router.push({path: '/index'})// 跳转首页
+      })
+    },
+    getVerify (imei) { // 获取验证码
+      this.axios({
+        url: GLOBAL.URL.GET_VCODE,
+        method: 'post',
+        data: {
+          imei: imei// 暂时写死
+        }
+      }).then((r) => {
+        // {
+        //  "vcode_img_url": "http://xxx/vcode.png"
+        // }
+        console.log('验证码', r)
+        this.vcode_img = r.vcode_img_url
+      })
     }
+  },
+  created () {
+    // let imei = 123456
+    // this.getVerify(imei)
   }
 }
 </script>

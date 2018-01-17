@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import GLOBAL from '../config/global'
 export default {
   data () {
     return {
@@ -59,12 +60,58 @@ export default {
           value: 0,
           label: '未通过'
         }
-      ]
+      ],
+      taskList: {
+        'wait_to_executed': [{
+          'task_id': '12',
+          'task_name': '南京西路地铁灯箱-1监测任务',
+          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
+          'ad_name': '南京西路地铁灯箱-1',
+          'monitor_time': '2018/01/16',
+          'ad_location': '人民广场候车亭-1',
+          'ad_status': '已派发',
+          'img_url_list': ['http://xxx/1.jpg']
+        }],
+        'executing': [{
+          'task_id': '12',
+          'task_name': '南京西路地铁灯箱-1监测任务',
+          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
+          'ad_name': '南京西路地铁灯箱-1',
+          'monitor_time': '2018/01/16',
+          'ad_location': '人民广场候车亭-1',
+          'ad_status': '等待审核',
+          'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
+        }],
+        'checked': [{
+          'task_id': '12',
+          'task_name': '南京西路地铁灯箱-1监测任务',
+          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
+          'ad_name': '南京西路地铁灯箱-1',
+          'monitor_time': '2018/01/16',
+          'ad_location': '人民广场候车亭-1',
+          'ad_status': '未通过审核',
+          'reason': '驳回理由：照片不清晰',
+          'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
+        }]
+      }
     }
   },
   methods: {
     clicka () {
       alert('a')
+    },
+    getTaskList () {
+      this.axios({
+        url: GLOBAL.URL.GET_TASK_LIST,
+        method: 'post',
+        data: {
+          type: 1, // 任务列表
+          user_id: this.user_id// 用户id
+        }
+      }).then((r) => {
+        console.log('任务列表', r)
+        this.taskList = r.taskList
+      })
     }
   }
 }
