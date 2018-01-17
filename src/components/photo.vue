@@ -61,7 +61,9 @@ export default {
       img2Dis: false,
       img3Dis: false,
       img4Dis: false,
-      imgArr: []// 存放四张图片
+      imgArr: [], // 存放四张图片
+      token: '',
+      userId: ''
     }
   },
   methods: {
@@ -91,11 +93,14 @@ export default {
         url: GLOBAL.URL.TASK_SUBMIT,
         method: 'post',
         data: {
+          'token': this.token,
           'type': '1', // 1：监测任务 2：纠错任务
-          'user_id': '123',
+          'activity_id': '234', // 活动ID
+          'ad_location_id': '123', // 广告位置ID
+          'user_id': this.userId,
           'task_id': '123', // 如果为纠错任务该字段为空
-          'longitude': '120.123',
-          'latitude': '32.123',
+          'lon': '120.123',
+          'lat': '32.123',
           'feedback': {
             'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
             'other': '其他问题'
@@ -131,6 +136,10 @@ export default {
         }
       })
     }
+  },
+  created () {
+    this.userId = this.$store.getters.getCurrentUser.userId
+    this.token = this.$store.getters.getToken
   }
 }
 </script>

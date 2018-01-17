@@ -36,25 +36,11 @@ export default {
     return {
       selected: '1',
       value: '全部',
-      options: [
-        {
-          value: null,
-          label: '全部'
-        },
-        {
-          value: 1,
-          label: '已通过'
-        }, {
-          value: 0,
-          label: '未通过'
-        }
-      ]
+      userType: '1'
     }
   },
   methods: {
-    clicka () {
 
-    }
   }
 }
 </script>

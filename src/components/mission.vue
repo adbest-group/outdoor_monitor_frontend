@@ -93,26 +93,30 @@ export default {
           'reason': '驳回理由：照片不清晰',
           'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
         }]
-      }
+      },
+      userId: '',
+      token: ''
     }
   },
   methods: {
-    clicka () {
-      alert('a')
-    },
     getTaskList () {
       this.axios({
         url: GLOBAL.URL.GET_TASK_LIST,
         method: 'post',
         data: {
+          token: this.token,
           type: 1, // 任务列表
-          user_id: this.user_id// 用户id
+          user_id: this.userId// 用户id
         }
       }).then((r) => {
         console.log('任务列表', r)
         this.taskList = r.taskList
       })
     }
+  },
+  created () {
+    this.userId = this.$store.getters.getCurrentUser.userId
+    this.token = this.$store.getters.getToken
   }
 }
 </script>

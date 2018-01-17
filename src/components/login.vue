@@ -21,11 +21,18 @@ export default {
         captcha: ''
       },
       vcode_img: '',
-      imei: ''
+      imei: '',
+      idfa: '',
+      token: ''
     }
   },
   methods: {
     login () {
+      let currentUser = {
+        userId: '123',
+        userType: '1'
+      }
+      this.$store.commit('setCurrentUser', currentUser)
       this.$router.push({path: '/index'})
     },
     loginMethod () {
@@ -34,28 +41,44 @@ export default {
         method: 'post',
         data: {
           'imei': this.imei,
-          'user_id': this.form.username,
+          'idfa': this.idfa,
+          'token': this.token,
+          'username': this.form.username,
           'password': this.form.password,
           'vcode': this.form.captcha
         }
       }).then((r) => {
         console.log('登陆成功', r)
+        //         {
+        //  "common": {
+        //   "status": "1",  //0：登陆成功 1：用户名或密码错误 2：验证码错误
+        //   "msg": "用户名或密码错误"
+        //  },
+        //  "realname": "张三",
+        //  "company": "浙江百泰",
+        //  "user_id":"123",
+        //  "usertype": "1"
+        // }
+        let currentUser = {
+          userId: r.data.user_id,
+          userType: r.data.usertype
+        }
+        this.$store.commit('setCurrentUser', currentUser)
         this.$router.push({path: '/index'})// 跳转首页
       })
     },
-    getVerify (imei) { // 获取验证码
+    getToken () { // 获取token、验证码
       this.axios({
-        url: GLOBAL.URL.GET_VCODE,
-        method: 'post',
-        data: {
-          imei: imei// 暂时写死
-        }
+        url: GLOBAL.URL.GET_TOKEN,
+        method: 'get'
       }).then((r) => {
         // {
         //  "vcode_img_url": "http://xxx/vcode.png"
         // }
-        console.log('验证码', r)
-        this.vcode_img = r.vcode_img_url
+        console.log('验证码和token信息', r)
+        this.vcode_img = r.data.vcode_img_url
+        this.token = r.data.token
+        this.$store.commit('setToken', this.token)// 并将token放入store中
       })
     }
   },

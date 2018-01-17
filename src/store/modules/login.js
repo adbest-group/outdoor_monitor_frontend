@@ -1,11 +1,18 @@
 
 const state = {
-  userId: null
+  currentUser: {
+    userId: null,
+    userType: '0'
+  },
+  token: ''
 }
 // getters
 const getters = {
-  getUserId: function () {
-    return state.userId
+  getCurrentUser: function () {
+    return state.currentUser
+  },
+  getToken () {
+    return state.token
   }
 }
 // actions
@@ -20,8 +27,11 @@ const actions = {
 }
 // mutations
 const mutations = {
-  setUserId: function (state, userId) {
-    state.userId = userId
+  setCurrentUser: function (state, currentUser) {
+    state.currentUser = currentUser
+  },
+  setToken (state, token) {
+    state.token = token
   }
 }
 
