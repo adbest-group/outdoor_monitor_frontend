@@ -10,7 +10,10 @@
       <!-- <button @click="clicka()">fasfadsfsad</button> -->
       <mt-tab-container-item id="1">
         <!-- 待执行列表 -->
-
+        <!-- <mt-cell title="标题文字" to="/monitor" is-link>
+          <span style="color: green">监测</span>
+        </mt-cell> -->
+        <list-cell :list='taskList.wait_to_executed'></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <!-- 执行中列表 -->
@@ -39,6 +42,7 @@
 
 <script>
 import GLOBAL from '../config/global'
+import listCell from '../components/listCell'
 export default {
   data () {
     return {
@@ -109,6 +113,9 @@ export default {
         this.taskList = r.taskList
       })
     }
+  },
+  components: {
+    listCell
   },
   created () {
     this.userId = this.$store.getters.getCurrentUser.userId
