@@ -27,7 +27,6 @@ export default {
       type: Array,
       required: true
     }
-
   },
   methods: {
     statusClass (status) { // 状态样式
