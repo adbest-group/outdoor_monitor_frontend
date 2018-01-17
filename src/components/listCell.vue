@@ -1,21 +1,24 @@
 <template>
   <div class="listCell">
     <ul v-if="list.length > 0">
-      <router-link
-        tag="li"
+      <li
         class="cell"
         v-if="list"
-        to="/monitor"
         v-for="cell in list"
-        :key="cell.task_id">
+        :key="cell.task_id"
+        @click="toLink">
 
-        <div class="ad-status" :class="statusClass(cell.ad_status)">{{cell.ad_status}}</div>
+        <div v-if="showStatus(cell.ad_status)"
+             class="ad-status"
+             :class="statusClass(cell.ad_status)">
+              {{statusText(cell.ad_status)}}
+        </div>
         <div class="ad-name">{{cell.task_name}}</div>
         <div class="ad-see">
-          {{cell.ad_status === '已派发' ? '监测' : '查看'}}
+          {{cell.ad_status === '2' && type === 1 ? '监测' : '查看'}}
           <span class="el-icon-arrow-right"></span>
         </div>
-      </router-link>
+      </li>
     </ul>
     <p v-else class="no-list" >暂时没有相关数据</p>
   </div>
@@ -26,14 +29,52 @@ export default {
     list: {
       type: Array,
       required: true
+    },
+    type: { // 1 为任务  2 为纠错
+      type: Number,
+      default: 1
     }
   },
   methods: {
+    toLink () { // 跳转链接
+      this.$router.push({path: '/monitor'})
+    },
     statusClass (status) { // 状态样式
-      switch (status) {
-        case '已派发': return 'status-success'
-        case '等待审核': return 'status-wait'
-        case '未通过审核': return 'status-fail'
+      if (this.type === 1) {
+        switch (status) {
+          case '4': return 'status-success'
+          case '5': return 'status-fail'
+        }
+      } else if (this.type === 2) {
+        switch (status) {
+          case '2': return 'status-success'
+          case '3': return 'status-fail'
+        }
+      }
+    },
+    statusText (status) { // 状态内容
+      if (this.type === 1) { // 任务
+        switch (status) {
+          case '2': return '待执行'
+          case '3': return '审核中'
+          case '4': return '通过审核'
+          case '5': return '未通过审核'
+        }
+      } else if (this.type === 2) { // 纠错
+        switch (status) {
+          case '1': return '待审核'
+          case '2': return '通过审核'
+          case '3': return '未通过审核'
+        }
+      }
+    },
+    showStatus (status) { // 是否显示审核结果
+      if (this.type === 1 && (status === '4' || status === '5')) {
+        return true
+      } else if (this.type === 2 && (status === '3' || status === '2')) {
+        return true
+      } else {
+        return false
       }
     }
   }
@@ -56,9 +97,6 @@ export default {
 
         &.status-success{
           background: #42b983;
-        }
-        &.status-wait{
-          background: #26a2ff;
         }
         &.status-fail{
           background: red;
