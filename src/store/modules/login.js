@@ -1,7 +1,7 @@
 const state = {
   currentUser: {
     userId: null,
-    userType: '1'
+    userType: '0'
   },
   token: ''
 }

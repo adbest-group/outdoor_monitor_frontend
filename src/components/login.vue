@@ -61,7 +61,9 @@ export default {
         // }
         let currentUser = {
           userId: r.data.user_id,
-          userType: r.data.usertype
+          userType: r.data.usertype,
+          realname: r.data.realname,
+          company: r.data.company
         }
         this.$store.commit('setCurrentUser', currentUser)
         this.$router.push({path: '/index'})// 跳转首页

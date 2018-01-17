@@ -1,12 +1,23 @@
 <template>
   <div class="header clearfix">
-    <div class="companyInfo">公司头部</div><span class="awardInfo">奖品中心</span>
+    <div class="companyInfo">{{this.realName}}{{this.company}}</div><span v-if="userType === '1'" class="awardInfo">{{奖品}}</span>
   </div>
 </template>
 
 <script>
 export default {
-
+  data () {
+    return {
+      realName: '',
+      company: '',
+      userType: ''
+    }
+  },
+  created () {
+    this.realName = this.$store.getters.getCurrentUser.realName
+    this.company = this.$store.getters.getCurrentUser.company
+    this.userType = this.$store.getters.getCurrentUser.userType
+  }
 }
 </script>
 
