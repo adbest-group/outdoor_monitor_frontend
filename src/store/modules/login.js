@@ -5,7 +5,8 @@ const state = {
     realName: 'libin',
     company: '公司姓名'
   },
-  token: ''
+  token: '',
+  currentType: '1'// 默认1是主任务，2是纠错任务
 }
 // getters
 const getters = {
@@ -14,6 +15,9 @@ const getters = {
   },
   getToken () {
     return state.token
+  },
+  getCurrentType () {
+    return state.currentType
   }
 }
 // actions
@@ -33,6 +37,9 @@ const mutations = {
   },
   setToken (state, token) {
     state.token = token
+  },
+  setCurrentType (state, currentType) {
+    state.currentType = currentType
   }
 }
 
