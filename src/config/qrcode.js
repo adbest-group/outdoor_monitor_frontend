@@ -63,7 +63,8 @@ import jQuery from 'jquery'
                 qrcode.callback = function(data) {
                     //得到扫码的结果
                     localStorage.setItem('qrcode',data);
-                    location.href = "http://172.16.88.167:8080/#/monitorInfo"
+                    let origin = window.location.origin;
+                    location.href = `${origin}/#/monitorInfo`
                     // $('.result-qrcode').html(data + '<br/>');
                 };
             };

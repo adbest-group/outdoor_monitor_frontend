@@ -1,7 +1,7 @@
 const state = {
   currentUser: {
     userId: null,
-    userType: '1',
+    userType: '0', // 1.监测人员 0.客户
     realName: 'libin',
     company: '公司姓名'
   },

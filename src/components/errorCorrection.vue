@@ -2,7 +2,7 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="3" v-show="userType === 0">已处理完成</mt-tab-item>
+      <mt-tab-item id="3" v-show="userType === '1'">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">
@@ -31,7 +31,7 @@ export default {
     return {
       selected: '1',
       value: '全部',
-      userType: 0,
+      userType: '1',
       jiucuoList: {
         'jiucuo_submit': [{
           'task_id': '12',
@@ -66,6 +66,9 @@ export default {
   },
   components: {
     listCell
+  },
+  created () {
+    this.userType = this.$store.getters.getCurrentUser.userType
   }
 }
 </script>
