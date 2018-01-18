@@ -26,7 +26,7 @@
     <div class="btns clearfix" v-else>
       <mt-button style="margin-left:0.1rem;" type="primary" @click.native="handleClick">返回</mt-button>
       <div class="qr-btn" node-type="qr-btn">重新监测
-          <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" />
+          <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码"  accept="image/*" capture="camera"/>
       </div>
     </div>
 

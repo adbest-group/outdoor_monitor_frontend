@@ -4,7 +4,7 @@
     <div class="alertContnet">
       <span class="closeBtn" @click="close">X</span>
       <div class="img">
-
+        <img :src="picUrl" alt="">
       </div>
       <p class="text">该位置正确上刊画面</p>
       <mt-button type="primary" @click.native="handleClick">确定</mt-button>
@@ -17,7 +17,7 @@ import { isJSON } from '../config/utils'
 export default {
   data () {
     return {
-      info: {}// 二维码中的json格式的信息
+      picUrl: ''// 二维码中的json格式的信息
     }
   },
   methods: {
@@ -31,13 +31,18 @@ export default {
   components: {
     BackUp
   },
+  watch: {
+    picUrl (val) {
+      console.log('picUrl', val)
+    }
+  },
   created () {
-    if (this.$route.query.data) {
-      console.log(this.$route.query.data)
-      let data = this.$route.query.data// 获取二维码信息
+    if (localStorage.getItem('qrcode')) {
+      let data = localStorage.getItem('qrcode')
       // 将此信息解析为json
+      console.log(data)
       if (isJSON(data)) {
-        this.info = JSON.parse(data)
+        this.picUrl = JSON.parse(data).pic_url
       } else {
         console.log('json格式不正确')
       }
@@ -72,7 +77,10 @@ export default {
     .img{
       width:4.20rem;
       height:5.54rem;
-      background:#f00;
+      img{
+        width:100%;
+        height:100%;
+      }
     }
     .text{
       text-align: center;

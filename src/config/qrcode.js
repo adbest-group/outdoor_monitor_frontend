@@ -62,7 +62,8 @@ import jQuery from 'jquery'
                 qrcode.decode(oFREvent.target.result);
                 qrcode.callback = function(data) {
                     //得到扫码的结果
-                    location.href = "http://172.16.88.167:8080/#/monitorInfo?data="+data
+                    localStorage.setItem('qrcode',data);
+                    location.href = "http://172.16.88.167:8080/#/monitorInfo"
                     // $('.result-qrcode').html(data + '<br/>');
                 };
             };
