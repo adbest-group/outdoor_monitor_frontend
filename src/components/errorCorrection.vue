@@ -2,7 +2,7 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="3" v-show="userType === 0">已处理完成</mt-tab-item>
+      <mt-tab-item id="3" v-show="userType === '1'">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">
@@ -20,7 +20,7 @@
         <list-cell :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
-    <div class="jiucuoBtn">我要纠错</div>
+    <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     return {
       selected: '1',
       value: '全部',
-      userType: 0,
+      userType: '1',
       jiucuoList: {
         'jiucuo_submit': [{
           'task_id': '12',
@@ -59,10 +59,16 @@ export default {
     }
   },
   methods: {
-
+    redirectMonitor () {
+      this.$store.commit('setCurrentType', '2')
+      this.$router.push({path: '/monitor'})
+    }
   },
   components: {
     listCell
+  },
+  created () {
+    this.userType = this.$store.getters.getCurrentUser.userType
   }
 }
 </script>

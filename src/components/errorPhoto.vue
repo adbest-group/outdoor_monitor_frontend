@@ -1,5 +1,5 @@
 <template>
-  <div class="photo">
+  <div class="errorPhoto">
     <div class="imgComtent clearfix">
       <div class="imgWrapper">
         <div class="imgNone" :class="{ hide: img1Dis }" @click="imgClick(1)">
@@ -23,6 +23,7 @@
 </template>
 <script>
 import { MessageBox } from 'mint-ui'
+import checkMixin from '../mixins/checkMixin'
 export default {
   data () {
     return {
@@ -33,28 +34,8 @@ export default {
       imgArr: []// 存放四张图片
     }
   },
+  mixins: [checkMixin],
   methods: {
-    upload (c, d) {
-      let _this = this
-      let $c = document.querySelector(c)
-      let $d = document.querySelector(d)
-      let file = $c.files[0]
-      let length = c.length - 1
-      let index = c.substr(length, 1)
-      // 同时放入本地临时数组中
-      _this.imgArr[index] = file
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = function (e) {
-        $d.setAttribute('src', e.target.result)
-        let str = (d + 'Dis').substr(1)
-        _this[str] = true
-      }
-    },
-    imgClick (val) {
-      let input = document.querySelector('#fileBtn' + val)
-      input.click()
-    },
     handleClick () {
       MessageBox({
         title: '问题反馈',
@@ -80,7 +61,7 @@ export default {
 }
 </script>
 <style lang="scss">
-  .photo{
+  .errorPhoto{
     padding:1rem .7rem 0;
     .imgComtent{
       .imgWrapper{

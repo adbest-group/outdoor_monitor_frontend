@@ -21,9 +21,7 @@
           <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码"  accept="image/*" capture="camera"/>
       </div>
     </div>
-
   </div>
-
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'

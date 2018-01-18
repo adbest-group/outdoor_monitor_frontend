@@ -17,7 +17,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/index' // 根目录跳到首页
+      redirect: '/login' // 根目录跳到首页
     },
     {
       path: '/login',
