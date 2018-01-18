@@ -1,6 +1,6 @@
 <template>
   <div class="header clearfix">
-    <div class="companyInfo"><p class="realName">{{this.realName}}</p><p class="company">{{this.company}}</p></div><span v-if="userType === '1'" class="awardInfo">奖品</span>
+    <div class="companyInfo"><i class="icon iconfont icon-gongsixinxi"></i><p class="realName">{{this.realName}}</p><p class="company">{{this.company}}</p></div><span v-if="userType === '1'" class="awardInfo"><i class="iconfont icon-jiangpin"></i></span>
   </div>
 </template>
 
@@ -27,13 +27,26 @@ export default {
     line-height: 0.64rem;
     padding:0 0.2rem;
     background:#000;
+    overflow: hidden;
     .companyInfo{
       padding-left:.5rem;
       width:3rem;
       color:#fff;
       float:left;
-      height: 0.32rem;
-      line-height: 0.32rem;
+      position: relative;
+      .icon{
+        position: absolute;
+        top:0;
+        left:0;
+      }
+      .realName{
+        height: 0.32rem;
+        line-height: 0.32rem;
+      }
+      .company{
+        height: 0.32rem;
+        line-height: 0.32rem;
+      }
     }
     .awardInfo{
       color:#fff;

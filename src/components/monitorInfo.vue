@@ -22,7 +22,12 @@ export default {
   },
   methods: {
     handleClick () {
-      this.$router.push({path: '/photo'})
+      let type = this.$store.getters.getCurrentType
+      if (type === '1') { // 主线任务
+        this.$router.push({path: '/photo'})
+      } else if (type === '2') { // 纠错任务
+        this.$router.push({path: '/errorPhoto'})
+      }
     },
     close () {
       history.back(-1)

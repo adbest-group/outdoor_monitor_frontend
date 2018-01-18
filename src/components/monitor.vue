@@ -71,7 +71,6 @@ input[node-type=jsbridge]{
     display: inline-block;
     width:4.50rem;
     height:4.92rem;
-    background:#f00;
     img{
       width:100%;
       height:100%;
