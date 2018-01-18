@@ -2,7 +2,6 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="2" v-show="userType === 0">纠错处理中</mt-tab-item>
       <mt-tab-item id="3" v-show="userType === 0">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
@@ -10,23 +9,14 @@
       <!-- <button @click="clicka()">fasfadsfsad</button> -->
       <mt-tab-container-item id="1">
         <!-- 待执行列表 -->
-        <mt-cell title="南京西路地铁灯箱-1" to="/errorCheck" is-link>
-          <span style="color: green">查看</span>
-        </mt-cell>
         <list-cell :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <!-- 执行中列表 -->
-        <mt-cell title="标题文字" to="/errorCheck" is-link>
-          <span style="color: green">查看</span>
-        </mt-cell>
         <list-cell :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="3" class="verifiedMission">
         <!-- 已审核列表 -->
-        <mt-cell title="标题文字" to="/errorCheck" is-link>
-          <span style="color: green">查看</span>
-        </mt-cell>
         <list-cell :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>

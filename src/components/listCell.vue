@@ -41,10 +41,14 @@ export default {
         if (status === '2') { // 监测
           this.$router.push({path: '/monitor'})
         } else {
-          this.$router.push({path: '/photoCheck'})
+          this.$router.push({path: '/photoCheck', query: {'status': status}})
         }
       } else { // 2纠错，只能查看
-        this.$router.push({path: '/photoCheck'})
+        if (status === '1') {
+          this.$router.push({path: '/errorCheck', query: {'status': '1'}})
+        } else {
+          this.$router.push({path: '/errorCheck', query: {'status': '2'}})
+        }
       }
     },
     statusClass (status) { // 状态样式

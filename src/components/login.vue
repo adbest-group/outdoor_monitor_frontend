@@ -31,7 +31,9 @@ export default {
     login () {
       let currentUser = {
         userId: '123',
-        userType: '1'
+        userType: '1',
+        realName: 'libin',
+        company: '公司姓名'
       }
       this.$store.commit('setCurrentUser', currentUser)
       // this.$router.push({path: '/index'})

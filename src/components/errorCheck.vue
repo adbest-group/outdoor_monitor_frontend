@@ -1,6 +1,6 @@
 <template>
   <div class="errorCheck">
-    <div class="currentCondition">当前状态：<span>等待处理</span></div>
+    <div class="currentCondition">当前状态：<span v-if="status === '1'">等待处理</span><span v-if="status === '2'">处理完成</span></div>
     <div class="imgComtent clearfix">
       <div class="imgWrapper">
         <img :src="imgArr[0]" class="img" id="img1"/>
@@ -10,9 +10,9 @@
       <mt-cell title="内容1" is-link></mt-cell>
       <mt-cell title="内容2" is-link></mt-cell>
       <mt-cell title="内容3" is-link></mt-cell>
-      <mt-cell title="等待审核" is-link></mt-cell>
+      <mt-cell title="问题反馈：内容不正确" is-link></mt-cell>
     </div>
-    <div v-if="status">
+    <div v-if="status === '1'">
       <mt-button type="primary" @click.native="handleClick">返回</mt-button>
     </div>
     <div class="btns clearfix" v-else>
@@ -27,11 +27,12 @@
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
+import { initBtn } from '../config/qrcodeRequire'
 export default {
   data () {
     return {
       imgArr: [], // 存放四张图片
-      status: 0// 审核状态，包含待审核、未审核通过、已审核通过三种状态
+      status: '1'// 审核状态，包含待审核、已审核两种状态（纠错页面）
     }
   },
   methods: {
@@ -62,6 +63,13 @@ export default {
   },
   created () {
     // console.log(this.$route.query)
+    if (this.$route.query.status) {
+      this.status = this.$route.query.status
+    }
+    this.$store.commit('setCurrentType', '2')// 纠错
+  },
+  mounted () {
+    initBtn()
   }
 }
 </script>

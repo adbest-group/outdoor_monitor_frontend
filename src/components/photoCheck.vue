@@ -1,5 +1,5 @@
 <template>
-  <div class="photo">
+  <div class="photoCheck">
     <div class="imgComtent clearfix">
       <div class="imgWrapper">
         <img :src="imgArr[0]" class="img" id="img1"/>
@@ -18,9 +18,11 @@
       <mt-cell title="内容1" is-link></mt-cell>
       <mt-cell title="内容2" is-link></mt-cell>
       <mt-cell title="内容3" is-link></mt-cell>
-      <mt-cell title="等待审核" is-link></mt-cell>
+      <mt-cell v-if="status === '3'" title="等待审核" is-link></mt-cell>
+      <mt-cell v-if="status === '4'" title="审核通过" is-link></mt-cell>
+      <mt-cell v-if="status === '5'" title="审核未通过，驳回理由：照片不清晰" is-link></mt-cell>
     </div>
-    <div v-if="status">
+    <div v-if="status !== '5'">
       <mt-button type="primary" @click.native="handleClick">返回</mt-button>
     </div>
     <div class="btns clearfix" v-else>
@@ -35,11 +37,12 @@
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
+import { initBtn } from '../config/qrcodeRequire'
 export default {
   data () {
     return {
       imgArr: [], // 存放四张图片
-      status: 0// 审核状态，包含待审核、未审核通过、已审核通过三种状态
+      status: '3'// 审核状态，包含审核中3、未审核通过5、已审核通过4三种状态
     }
   },
   methods: {
@@ -70,6 +73,13 @@ export default {
   },
   created () {
     // console.log(this.$route.query)
+    if (this.$route.query.status) {
+      this.status = this.$route.query.status
+    }
+    this.$store.commit('setCurrentType', '1')// 主线
+  },
+  mounted () {
+    initBtn()
   }
 }
 </script>
@@ -77,7 +87,7 @@ export default {
 input[node-type=jsbridge]{
     display:none;
 }
-  .photo{
+  .photoCheck{
     padding:1rem .7rem 0;
     .imgComtent{
       .imgWrapper{
