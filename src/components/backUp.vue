@@ -1,10 +1,15 @@
 <template>
   <div class="backUp">
-    <p><span @click="goBack()"><i class="iconfont icon-fanhui"></i></span></p>
+    <mt-header>
+      <div slot="left" >
+        <mt-button icon="back" @click.native="goBack">返回</mt-button>
+      </div>
+    </mt-header>
   </div>
 </template>
 
 <script>
+import { Header, Button } from 'mint-ui'
 export default {
   data () {
     return {
@@ -15,14 +20,13 @@ export default {
     goBack () {
       history.back()
     }
+  },
+  components: {
+    Header,
+    Button
   }
 }
 </script>
 <style lang="scss" scoped>
-.backUp{
-  color:#fff;
-  height:.92rem;
-  line-height:.92rem;
-  padding:0 .52rem;
-}
+
 </style>
