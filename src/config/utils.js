@@ -19,8 +19,8 @@ export function addClass (element, className) {
 export function isJSON (str) {
   if (typeof str === 'string') {
     try {
-      var obj = JSON.parse(str)
-      if (typeof obj === 'object' && obj) {
+      var obj = JSON.parse(decodeURI(str))
+      if (typeof obj === 'object') {
         return true
       } else {
         return false

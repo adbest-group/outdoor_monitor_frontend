@@ -2,7 +2,7 @@
   <div class="monitor">
     <p class="text"><span>--广告活动画面--</span></p>
     <div class="img">
-
+      <img src="../assets/1.jpg" alt="">
     </div>
     <p class="text"><span>--广告名称--</span></p>
     <p class="content"><span>KFC  CNY闻鸡起舞堡</span></p>
@@ -11,7 +11,7 @@
     <p class="content"><span>人民广场候车亭-1</span></p>
     <div>
         <div class="qr-btn" node-type="qr-btn">监测
-            <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" />
+            <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" accept="image/*" capture="camera" />
         </div>
     </div>
   </div>
@@ -69,6 +69,10 @@ input[node-type=jsbridge]{
     width:4.50rem;
     height:4.92rem;
     background:#f00;
+    img{
+      width:100%;
+      height:100%;
+    }
   }
 }
 </style>
