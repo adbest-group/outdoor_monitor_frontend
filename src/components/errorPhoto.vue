@@ -1,5 +1,5 @@
 <template>
-  <div class="photo">
+  <div class="errorPhoto">
     <div class="imgComtent clearfix">
       <div class="imgWrapper">
         <div class="imgNone" :class="{ hide: img1Dis }" @click="imgClick(1)">
@@ -61,7 +61,7 @@ export default {
 }
 </script>
 <style lang="scss">
-  .photo{
+  .errorPhoto{
     padding:1rem .7rem 0;
     .imgComtent{
       .imgWrapper{
