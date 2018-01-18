@@ -37,49 +37,16 @@
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
-import { initBtn } from '../config/qrcodeRequire'
+
+import checkMixin from '../mixins/checkMixin'
 export default {
-  data () {
-    return {
-      imgArr: [], // 存放四张图片
-      status: '3'// 审核状态，包含审核中3、未审核通过5、已审核通过4三种状态
-    }
-  },
-  methods: {
-    upload (c, d) {
-      let _this = this
-      let $c = document.querySelector(c)
-      let $d = document.querySelector(d)
-      let file = $c.files[0]
-      let length = c.length - 1
-      let index = c.substr(length, 1)
-      // 同时放入本地临时数组中
-      _this.imgArr[index] = file
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = function (e) {
-        $d.setAttribute('src', e.target.result)
-        let str = (d + 'Dis').substr(1)
-        _this[str] = true
-      }
-    },
-    imgClick (val) {
-      let input = document.querySelector('#fileBtn' + val)
-      input.click()
-    },
-    handleClick () {
-      history.back()
-    }
-  },
+  mixins: [checkMixin],
   created () {
     // console.log(this.$route.query)
     if (this.$route.query.status) {
       this.status = this.$route.query.status
     }
     this.$store.commit('setCurrentType', '1')// 主线
-  },
-  mounted () {
-    initBtn()
   }
 }
 </script>

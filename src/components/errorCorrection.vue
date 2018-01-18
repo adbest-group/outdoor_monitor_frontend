@@ -20,6 +20,7 @@
         <list-cell :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
+    <div class="jiucuoBtn">我要纠错</div>
   </div>
 </template>
 
@@ -73,6 +74,55 @@ export default {
         margin-top:0.02rem;
         margin-bottom:0.02rem;
       }
+    }
+    .jiucuoBtn{
+      position: fixed;
+      bottom: 1.28rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1.4rem;
+      height: 1.4rem;
+      line-height: 1.4rem;
+      text-align: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: .26rem;
+      background-color: #26a2ff;
+
+      &::after{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1.4rem;
+        height: 1.4rem;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        background-color: rgba(38, 162, 255, .7);
+        border-radius: 50%;
+        animation: btnShadow 3s infinite;
+      }
+    }
+  }
+
+  @keyframes btnShadow {
+    0%{
+      background-color: rgba(38, 162, 255, .7);
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+
+    50% {
+      background-color: rgba(38, 162, 255, .5);
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+
+    100% {
+      background-color: rgba(38, 162, 255, 0);
+      width: 1.8rem;
+      height: 1.8rem;
     }
   }
 </style>
