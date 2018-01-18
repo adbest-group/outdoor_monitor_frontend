@@ -20,7 +20,7 @@
         <list-cell :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
-    <div class="jiucuoBtn">我要纠错</div>
+    <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div>
   </div>
 </template>
 
@@ -59,7 +59,10 @@ export default {
     }
   },
   methods: {
-
+    redirectMonitor () {
+      this.$store.commit('setCurrentType', '2')
+      this.$router.push({path: '/monitor'})
+    }
   },
   components: {
     listCell

@@ -23,8 +23,8 @@ export default {
 
 <style lang="scss">
   .header{
-    height: 0.64rem;
-    line-height: 0.64rem;
+    height: 0.74rem;
+    line-height: 0.74rem;
     padding:0 0.2rem;
     background:#000;
     overflow: hidden;
