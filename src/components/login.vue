@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+import { MessageBox } from 'mint-ui'
 import GLOBAL from '../config/global'
 export default {
   data () {
@@ -33,7 +34,19 @@ export default {
         userType: '1'
       }
       this.$store.commit('setCurrentUser', currentUser)
-      this.$router.push({path: '/index'})
+      // this.$router.push({path: '/index'})
+      let status = '0'
+      if (this.form.username === '' || this.form.password === '' || this.form.captcha === '') {
+        MessageBox.alert('请输入登录信息', '登录提示')
+      } else {
+        if (status === '0') {
+          this.$router.push({path: '/index'})// 跳转首页
+        } else if (status === '1') {
+          MessageBox.alert('用户名或密码错误', '登录提示')
+        } else {
+          MessageBox.alert('验证码错误', '登录提示')
+        }
+      }
     },
     loginMethod () {
       this.axios({
@@ -59,14 +72,25 @@ export default {
         //  "user_id":"123",
         //  "usertype": "1"
         // }
-        let currentUser = {
-          userId: r.data.user_id,
-          userType: r.data.usertype,
-          realname: r.data.realname,
-          company: r.data.company
+        if (this.form.username === '' || this.form.password === '' || this.form.captcha === '') {
+          MessageBox.alert('请输入登录信息', '登录提示')
+        } else {
+          let status = r.data.common.status
+          if (status === '0') {
+            let currentUser = {
+              userId: r.data.user_id,
+              userType: r.data.usertype,
+              realname: r.data.realname,
+              company: r.data.company
+            }
+            this.$store.commit('setCurrentUser', currentUser)
+            this.$router.push({path: '/index'})// 跳转首页
+          } else if (status === '1') {
+            MessageBox.alert('用户名或密码错误', '登录提示')
+          } else {
+            MessageBox.alert('验证码错误', '登录提示')
+          }
         }
-        this.$store.commit('setCurrentUser', currentUser)
-        this.$router.push({path: '/index'})// 跳转首页
       })
     },
     getToken () { // 获取token、验证码

@@ -76,7 +76,6 @@ import jQuery from 'jquery'
 
     Qrcode.init = function(tempBtn) {
         var _this_ = this;
-
         tempBtn.each(function() {
             new _this_($(this));
         });
