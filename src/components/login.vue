@@ -43,8 +43,10 @@ export default {
           this.$router.push({path: '/index'})// 跳转首页
         } else if (status === '1') {
           MessageBox.alert('用户名或密码错误', '登录提示')
-        } else {
+        } else if (status === '2') {
           MessageBox.alert('验证码错误', '登录提示')
+        } else {
+          MessageBox.alert('服务器错误', '登录提示')
         }
       }
     },
@@ -87,8 +89,10 @@ export default {
             this.$router.push({path: '/index'})// 跳转首页
           } else if (status === '1') {
             MessageBox.alert('用户名或密码错误', '登录提示')
-          } else {
+          } else if (status === '2') {
             MessageBox.alert('验证码错误', '登录提示')
+          } else {
+            MessageBox.alert('服务器错误', '登录提示')
           }
         }
       })
