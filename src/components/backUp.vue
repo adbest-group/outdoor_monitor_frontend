@@ -1,6 +1,6 @@
 <template>
   <div class="backUp">
-    <p><span @click="goBack()">返回</span></p>
+    <p><span @click="goBack()"><i class="iconfont icon-fanhui"></i></span></p>
   </div>
 </template>
 
