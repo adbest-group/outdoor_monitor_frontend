@@ -39,6 +39,7 @@ export default {
     toLink (status) { // 跳转链接
       if (this.type === 1) {
         if (status === '2') { // 监测
+          this.$store.commit('setCurrentType', '1')
           this.$router.push({path: '/monitor'})
         } else {
           this.$router.push({path: '/photoCheck', query: {'status': status}})
@@ -108,10 +109,10 @@ export default {
         text-align: center;
 
         &.status-success{
-          background: #42b983;
+          color: #42b983;
         }
         &.status-fail{
-          background: red;
+          color: red;
         }
       }
 
@@ -119,7 +120,7 @@ export default {
         flex: 1;
         line-height: $height;
         margin-left: .15rem;
-        font-size: .32rem;
+        font-size: .24rem;
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
@@ -129,7 +130,7 @@ export default {
         width: 1.3rem;
         line-height: $height;
         color: green;
-        font-size: .32rem;
+        font-size: .24rem;
 
         .el-icon-arrow-right{
           color: #999;
