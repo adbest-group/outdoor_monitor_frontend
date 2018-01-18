@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import '../config/qrcodeRequire'
+import { initBtn } from '../config/qrcodeRequire'
 export default {
   data () {
     return {
@@ -28,6 +28,9 @@ export default {
     handleClick () {
       // this.$router.push({path: '/monitorInfo'})
     }
+  },
+  mounted () {
+    initBtn()
   }
 }
 </script>
