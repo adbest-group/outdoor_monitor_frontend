@@ -12,10 +12,10 @@
         <img @click="imgClick(1)" src="" class="img" id="img1"/>
       </div>
     </div>
-    <div class="qrcodeInfo" v-if="currentTask">
-      <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
-      <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
-      <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
+    <div class="qrcodeInfo" v-if="qrcode">
+      <mt-cell :title="qrcode.activity_name" is-link></mt-cell>
+      <mt-cell :title="currentTime" is-link></mt-cell>
+      <mt-cell :title="qrcode.ad_location" is-link></mt-cell>
     </div>
     <mt-button type="primary" @click.native="handleClick">确定</mt-button>
   </div>
@@ -23,7 +23,9 @@
 </template>
 <script>
 import { MessageBox } from 'mint-ui'
+import {isJSON} from '../config/utils'
 import checkMixin from '../mixins/checkMixin'
+import moment from 'moment'
 export default {
   data () {
     return {
@@ -31,7 +33,8 @@ export default {
       img2Dis: false,
       img3Dis: false,
       img4Dis: false,
-      imgArr: []// 存放四张图片
+      imgArr: [], // 存放四张图片,
+      qrcode: null
     }
   },
   mixins: [checkMixin],
@@ -56,6 +59,25 @@ export default {
           this.$router.push({path: '/questionDetail'})
         }
       })
+    }
+  },
+  computed: {
+    currentTime () {
+      return moment().format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  created () {
+    if (localStorage.getItem('qrcode')) {
+      let data = localStorage.getItem('qrcode')
+      console.log(data)
+      // 将此信息解析为json
+      if (isJSON(data)) {
+        this.qrcode = JSON.parse(data)
+      } else {
+        console.log('保存的二维码信息不是json格式或二维码未扫描成功')
+      }
+    } else {
+      console.log('二维码信息未保存到本地存储里')
     }
   }
 }
