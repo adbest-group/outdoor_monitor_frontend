@@ -1,15 +1,15 @@
 <template>
   <div class="errorCheck">
     <div class="currentCondition">当前状态：<span v-if="status === '1'">等待处理</span><span v-if="status === '2'">处理完成</span></div>
-    <div class="imgComtent clearfix">
+    <div class="imgComtent clearfix" v-if="currentTask">
       <div class="imgWrapper">
-        <img :src="imgArr[0]" class="img" id="img1"/>
+        <img :src="currentTask.img_url_list[0]" class="img" id="img1"/>
       </div>
     </div>
-    <div class="qrcodeInfo">
-      <mt-cell title="内容1" is-link></mt-cell>
-      <mt-cell title="内容2" is-link></mt-cell>
-      <mt-cell title="内容3" is-link></mt-cell>
+    <div class="qrcodeInfo" v-if="currentTask">
+      <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
+      <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
+      <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
       <mt-cell title="问题反馈：内容不正确" is-link></mt-cell>
     </div>
     <div v-if="status === '1'">

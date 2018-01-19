@@ -1,12 +1,13 @@
 const state = {
   currentUser: {
     userId: null,
-    userType: '1', // 1.监测人员 0.客户
+    userType: '1', // 1.监测人员 0.客户//默认进来是监测人员
     realName: 'libin',
     company: '公司姓名'
   },
   token: '',
-  currentType: '1'// 默认1是主任务，2是纠错任务
+  currentType: '1', // 默认1是主任务，2是纠错任务
+  currentTask: null// 记录当前的任务（记录监测中或者查看中的任务）
 }
 // getters
 const getters = {
@@ -18,6 +19,9 @@ const getters = {
   },
   getCurrentType () {
     return state.currentType
+  },
+  getCurrentTask () {
+    return state.currentTask
   }
 }
 // actions
@@ -40,6 +44,9 @@ const mutations = {
   },
   setCurrentType (state, currentType) {
     state.currentType = currentType
+  },
+  setCurrentTask (state, currentTask) {
+    state.currentTask = currentTask
   }
 }
 

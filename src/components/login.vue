@@ -32,8 +32,14 @@ export default {
       let currentUser = {
         userId: '123',
         userType: '1',
-        realName: 'libin',
+        realName: 'test1',
         company: '公司姓名'
+      }
+      if (this.form.username === 'test') {
+        this.$store.commit('setCurrentUser', currentUser)
+      } else {
+        currentUser.userType = '0'
+        this.$store.commit('setCurrentUser', currentUser)
       }
       this.$store.commit('setCurrentUser', currentUser)
       // this.$router.push({path: '/index'})
@@ -56,7 +62,7 @@ export default {
       this.axios({
         url: GLOBAL.URL.Login,
         method: 'post',
-        data: {
+        data: {// 登陆假数据
           'imei': this.imei,
           'idfa': this.idfa,
           'token': this.token,

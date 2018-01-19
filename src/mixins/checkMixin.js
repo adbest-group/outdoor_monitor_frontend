@@ -7,6 +7,11 @@ export default {
       status: 0// 审核状态，包含待审核、未审核通过、已审核通过三种状态
     }
   },
+  computed: {
+    currentTask () {
+      return this.$store.getters.getCurrentTask
+    }
+  },
   methods: {
     upload (c, d) {
       let _this = this

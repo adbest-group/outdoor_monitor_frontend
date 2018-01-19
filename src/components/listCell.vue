@@ -6,7 +6,7 @@
         v-if="list"
         v-for="cell in list"
         :key="cell.task_id"
-        @click="toLink(cell.ad_status)">
+        @click="toLink(cell.ad_status,cell)">
 
         <div v-if="showStatus(cell.ad_status)"
              class="ad-status"
@@ -36,7 +36,8 @@ export default {
     }
   },
   methods: {
-    toLink (status) { // 跳转链接
+    toLink (status, cell) { // 跳转链接
+      this.$store.commit('setCurrentTask', cell)// 保存当前的任务(无论是主线（监测）任务，还是纠错任务)
       if (this.type === 1) {
         if (status === '2') { // 监测
           this.$store.commit('setCurrentType', '1')

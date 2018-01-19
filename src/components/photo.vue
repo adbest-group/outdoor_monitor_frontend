@@ -43,10 +43,10 @@
           <img @click="imgClick(4)" src="" class="img" id="img4"/>
         </div>
       </div>
-      <div class="qrcodeInfo">
-        <mt-cell title="内容1" is-link></mt-cell>
-        <mt-cell title="内容2" is-link></mt-cell>
-        <mt-cell title="内容3" is-link></mt-cell>
+      <div class="qrcodeInfo" v-if="currentTask">
+        <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
+        <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
+        <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
       </div>
       <mt-button type="primary" @click.native="handleClick">确定</mt-button>
     </div>
@@ -79,6 +79,11 @@ export default {
       questionDetail: false,
       value: [],
       otherQuestion: ''
+    }
+  },
+  computed: {
+    currentTask () {
+      return this.$store.getters.getCurrentTask
     }
   },
   methods: {
@@ -139,8 +144,7 @@ export default {
         })
       })
     },
-    handleClick1 () {
-      // 带问题提交任务
+    handleClick1 () { // 带问题提交任务
       this.taskSubmit().then(status => {
         if (status === '0') {
           MessageBox({

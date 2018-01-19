@@ -1,23 +1,23 @@
 <template>
   <div class="photoCheck">
-    <div class="imgComtent clearfix">
+    <div class="imgComtent clearfix" v-if="currentTask">
       <div class="imgWrapper">
-        <img :src="imgArr[0]" class="img" id="img1"/>
+        <img :src="currentTask.img_url_list[0]" class="img" id="img1"/>
       </div>
       <div class="imgWrapper" style="margin-left:0.2rem">
-        <img :src="imgArr[1]" class="img" id="img2"/>
+        <img :src="currentTask.img_url_list[1]" class="img" id="img2"/>
       </div>
       <div class="imgWrapper" style="margin-top:0.2rem">
-        <img :src="imgArr[2]" class="img" id="img3"/>
+        <img :src="currentTask.img_url_list[2]" class="img" id="img3"/>
       </div>
       <div class="imgWrapper" style="margin-left:0.2rem;margin-top:0.2rem">
-        <img :src="imgArr[3]" class="img" id="img4"/>
+        <img :src="currentTask.img_url_list[3]" class="img" id="img4"/>
       </div>
     </div>
-    <div class="qrcodeInfo">
-      <mt-cell title="内容1" is-link></mt-cell>
-      <mt-cell title="内容2" is-link></mt-cell>
-      <mt-cell title="内容3" is-link></mt-cell>
+    <div class="qrcodeInfo" v-if="currentTask">
+      <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
+      <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
+      <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
       <mt-cell v-if="status === '3'" title="等待审核" is-link></mt-cell>
       <mt-cell v-if="status === '4'" title="审核通过" is-link></mt-cell>
       <mt-cell v-if="status === '5'" title="审核未通过，驳回理由：照片不清晰" is-link></mt-cell>

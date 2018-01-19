@@ -1,19 +1,21 @@
 <template>
   <div class="monitor">
     <p class="text"><span>--广告活动画面--</span></p>
-    <div class="img">
-      <img src="../assets/1.jpg" alt="">
-    </div>
-    <p class="text"><span>--广告名称--</span></p>
-    <p class="content"><span>KFC  CNY闻鸡起舞堡</span></p>
+    <template v-if="currentTask">
+      <div class="img">
+        <img :src="currentTask.img_url_list[0]" alt="">
+      </div>
+      <p class="text"><span>--广告名称--</span></p>
+      <p class="content"><span>{{currentTask.ad_name}}</span></p>
 
-    <p class="text textTwo"><span>--需监测广告位--</span></p>
-    <p class="content"><span>人民广场候车亭-1</span></p>
-    <div>
-        <div class="qr-btn" node-type="qr-btn">监测
-            <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" accept="image/*" capture="camera" />
-        </div>
-    </div>
+      <p class="text textTwo"><span>--需监测广告位--</span></p>
+      <p class="content"><span>{{currentTask.ad_location}}</span></p>
+      <div>
+          <div class="qr-btn" node-type="qr-btn">监测
+              <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" accept="image/*" capture="camera" />
+          </div>
+      </div>
+    </template>
   </div>
 </template>
 <script>
@@ -24,10 +26,18 @@ export default {
       value: ''
     }
   },
+  computed: {
+    currentTask () {
+      return this.$store.getters.getCurrentTask
+    }
+  },
   methods: {
     handleClick () {
       // this.$router.push({path: '/monitorInfo'})
     }
+  },
+  created () {
+
   },
   mounted () {
     initBtn()

@@ -12,10 +12,10 @@
         <img @click="imgClick(1)" src="" class="img" id="img1"/>
       </div>
     </div>
-    <div class="qrcodeInfo">
-      <mt-cell title="内容1" is-link></mt-cell>
-      <mt-cell title="内容2" is-link></mt-cell>
-      <mt-cell title="内容3" is-link></mt-cell>
+    <div class="qrcodeInfo" v-if="currentTask">
+      <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
+      <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
+      <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
     </div>
     <mt-button type="primary" @click.native="handleClick">确定</mt-button>
   </div>
