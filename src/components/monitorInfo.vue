@@ -4,7 +4,9 @@
     <div class="alertContnet">
       <span class="closeBtn" @click="close">X</span>
       <div class="img">
-        <img :src="picUrl" alt="">
+        <template v-if="qrcode">
+          <img :src="qrcode.pic_url" alt="">
+        </template>
       </div>
       <p class="text">该位置正确上刊画面</p>
       <mt-button type="primary" @click.native="handleClick">确定</mt-button>
@@ -17,7 +19,7 @@ import { isJSON } from '../config/utils'
 export default {
   data () {
     return {
-      picUrl: ''// 二维码中的json格式的信息
+      qrcode: null// 二维码中的json格式的信息
     }
   },
   methods: {
@@ -36,21 +38,18 @@ export default {
   components: {
     BackUp
   },
-  watch: {
-    picUrl (val) {
-      console.log('picUrl', val)
-    }
-  },
   created () {
     if (localStorage.getItem('qrcode')) {
       let data = localStorage.getItem('qrcode')
-      // 将此信息解析为json
       console.log(data)
+      // 将此信息解析为json
       if (isJSON(data)) {
-        this.picUrl = JSON.parse(data).pic_url
+        this.qrcode = JSON.parse(data)
       } else {
-        console.log('json格式不正确')
+        console.log('保存的二维码信息不是json格式或二维码未扫描成功')
       }
+    } else {
+      console.log('二维码信息未保存到本地存储里')
     }
   }
 }
@@ -63,10 +62,10 @@ export default {
   position: relative;
   .alertContnet{
     position: absolute;
-    bottom:1.4rem;
+    top:50%;
     background:#fff;
     left:50%;
-    transform: translateX(-50%);
+    transform: translate(-50%,-50%);
     width:5.3rem;
     height: 8rem;
     padding:0.6rem 0.52rem 0.4rem;

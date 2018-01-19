@@ -42,7 +42,7 @@ export default {
           'ad_location': '人民广场候车亭-1',
           'ad_status': '1', // 待审核
           'feedback': '',
-          'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
+          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
         }],
         'jiucuo_success': [{
           'task_id': '12',
@@ -53,7 +53,7 @@ export default {
           'ad_location': '人民广场候车亭-1',
           'ad_status': '2', // 2：通过审核 3：未通过审核
           'feedback': '',
-          'img_url_list': ['http://xxx/1.jpg', 'http://xxx/2.jpg', 'http://xxx/3.jpg']
+          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
         }]
       }
     }
