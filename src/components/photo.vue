@@ -57,7 +57,7 @@
         v-model="value"
         :options="['内容不正确', '结构有问题', '编号不存在','灯光不亮']">
       </mt-checklist>
-      <mt-field class="mint-define" placeholder="其他问题" type="textarea" rows="4" v-modal="otherQuestion"></mt-field>
+      <mt-field class="mint-define" placeholder="其他问题" type="textarea" rows="4" v-model="otherQuestion"></mt-field>
       <mt-button type="primary" @click.native="handleClick1">提交</mt-button>
     </div>
   </div>

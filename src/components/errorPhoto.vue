@@ -75,6 +75,13 @@ export default {
         this.qrcode = JSON.parse(data)
       } else {
         console.log('保存的二维码信息不是json格式或二维码未扫描成功')
+        MessageBox({
+          title: '二维码扫描失败',
+          message: '请尝试重新扫描二维码',
+          confirmButtonText: '确定'
+        }).then((val) => {
+          history.go(-1)
+        })
       }
     } else {
       console.log('二维码信息未保存到本地存储里')
