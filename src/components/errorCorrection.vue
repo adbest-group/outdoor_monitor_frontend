@@ -20,12 +20,18 @@
         <list-cell :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
-    <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div>
+    <!-- <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div> -->
+    <div>
+          <div class="qr-btn" node-type="qr-btn">我要纠错
+              <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" accept="image/*" capture="camera" />
+          </div>
+      </div>
   </div>
 </template>
 
 <script>
 import listCell from '../components/listCell'
+import { initBtn } from '../config/qrcodeRequire'
 export default {
   data () {
     return {
@@ -59,29 +65,33 @@ export default {
     }
   },
   methods: {
-    redirectMonitor () {
-      this.$store.commit('setCurrentType', '2')
-      this.$router.push({path: '/monitor'})
-    }
+
   },
   components: {
     listCell
   },
   created () {
     this.userType = this.$store.getters.getCurrentUser.userType
+    this.$store.commit('setCurrentType', '2')// 纠错
+  },
+  mounted () {
+    initBtn()
   }
 }
 </script>
 
 <style lang="scss" scoped>
   .error{
+    input[node-type=jsbridge]{
+        display:none;
+    }
     .verifiedMission{
       .condition{
         margin-top:0.02rem;
         margin-bottom:0.02rem;
       }
     }
-    .jiucuoBtn{
+    .qr-btn{
       position: fixed;
       bottom: 1.28rem;
       left: 50%;
