@@ -1,11 +1,13 @@
 import axios from 'axios'
 // import qs from 'qs'
 import { Toast } from 'mint-ui'
+// import Cookies from 'js-cookie'
 
 const Axios = axios.create({
   baseURL: '/',
-  timeout: 5000,
+  timeout: 50000,
   responseType: 'json',
+  withCredentials: true,
   headers: {
     // 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
     'Content-Type': 'application/json;charset=utf-8'
@@ -24,6 +26,9 @@ Axios.interceptors.request.use(config => {
   //   config.data = qs.stringify(config.data || {})
   // } else {
   //   config.data = config.data || {}
+  // }
+  // if (config.method === 'post' && config.contentType === 'application/x-www-form-urlencoded') {
+  //   config.data = qs.stringify(config.data || {})
   // }
   config.data = config.data || {}
   if (config.contentType) {

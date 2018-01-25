@@ -18,18 +18,18 @@
       <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
       <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
       <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
-      <mt-cell v-if="status === '3'" title="等待审核" is-link></mt-cell>
-      <mt-cell v-if="status === '4'" title="审核通过" is-link></mt-cell>
-      <mt-cell v-if="status === '5'" title="审核未通过，驳回理由：照片不清晰" is-link></mt-cell>
+      <mt-cell v-if="status === 3" title="等待审核" is-link></mt-cell>
+      <mt-cell v-if="status === 4" title="审核通过" is-link></mt-cell>
+      <mt-cell v-if="status === 5" :title="getReason(currentTask)" is-link></mt-cell>
     </div>
-    <div v-if="status !== '5'">
+    <div v-if="status !== 5">
       <mt-button type="primary" @click.native="handleClick">返回</mt-button>
     </div>
     <div class="btns clearfix" v-else>
       <mt-button style="margin-left:0.1rem;" type="primary" @click.native="handleClick">返回</mt-button>
-      <div class="qr-btn" node-type="qr-btn">重新监测
-          <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码"  accept="image/*" capture="camera"/>
-      </div>
+        <div class="qr-btn" @click="uploadWrap()">重新监测
+            <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
+        </div>
     </div>
 
   </div>
@@ -39,8 +39,14 @@
 // import { MessageBox } from 'mint-ui'
 
 import checkMixin from '../mixins/checkMixin'
+import qrcodeMixin from '../mixins/qrcodeMixin'
 export default {
-  mixins: [checkMixin],
+  mixins: [checkMixin, qrcodeMixin],
+  methods: {
+    getReason (task) {
+      return '审核未通过:' + task.reason
+    }
+  },
   created () {
     // console.log(this.$route.query)
     if (this.$route.query.status) {

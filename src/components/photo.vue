@@ -45,12 +45,12 @@
       </div>
       <div class="qrcodeInfo" v-if="currentTask">
         <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
-        <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
+        <mt-cell :title="currentTime" is-link></mt-cell>
         <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
       </div>
       <mt-button type="primary" @click.native="handleClick">确定</mt-button>
     </div>
-    <div class="questionDetail" v-show="questionDetail">
+    <div class="questionDetail1" v-show="questionDetail">
       <p class="title">问题详情</p>
       <mt-checklist
         align="right"
@@ -58,7 +58,7 @@
         :options="['内容不正确', '结构有问题', '编号不存在','灯光不亮']">
       </mt-checklist>
       <mt-field class="mint-define" placeholder="其他问题" type="textarea" rows="4" v-model="otherQuestion"></mt-field>
-      <mt-button type="primary" @click.native="handleClick1">提交</mt-button>
+      <mt-button type="primary" @click.native="handleClickWithQues">提交</mt-button>
     </div>
   </div>
 
@@ -66,6 +66,7 @@
 <script>
 import { MessageBox } from 'mint-ui'
 import GLOBAL from '../config/global'
+import moment from 'moment'
 export default {
   data () {
     return {
@@ -84,6 +85,9 @@ export default {
   computed: {
     currentTask () {
       return this.$store.getters.getCurrentTask
+    },
+    currentTime () {
+      return moment().format('YYYY-MM-DD HH:mm:ss')
     }
   },
   methods: {
@@ -109,28 +113,27 @@ export default {
       input.click()
     },
     taskSubmit () { // 任务提交方法
-      if (this.imgArr.length !== 4) {
-        // 提交前看一下图片是否是四张
-        console.log(this.imgArr)
-        return false
-      }
+      // if (this.imgArr.length !== 4) {
+      //   // 提交前看一下图片是否是四张
+      //   console.log(this.imgArr)
+      //   return false
+      // }
       let formData = new FormData()
       for (let i = 1; i < 5; i++) {
         let doc = document.querySelector('#fileBtn' + i)
-        formData.append('pic[]', doc.files[0])
+        formData.append('pic' + i, doc.files[0])
       }
-      formData.append('token', this.token)
-      formData.append('type', '1')
-      formData.append('activity_id', '234')
-      formData.append('ad_location_id', '123')
-      formData.append('user_id', this.userId)
-      formData.append('task_id', '123')
-      formData.append('lon', '120.123')
-      formData.append('lat', '32.123')
-      formData.append('feedback', {
-        'problem': ['内容不正确', '结构有问题', '编号不存在', '灯光不亮'],
-        'other': '其他问题'
-      })
+      // formData.append('token', this.token)
+      // formData.append('activity_id', '234')
+      // formData.append('ad_location_id', '123')
+      // formData.append('user_id', this.userId)
+
+      formData.append('type', '1')// 1 代表监测任务
+      formData.append('task_id', this.taskId)
+      formData.append('lon', '')
+      formData.append('lat', '')
+      formData.append('problem', this.value.join(','))
+      formData.append('other', this.otherQuestion)
       return new Promise((resolve, reject) => {
         this.axios({
           url: GLOBAL.URL.TASK_SUBMIT,
@@ -138,15 +141,17 @@ export default {
           contentType: 'multipart/form-data',
           data: formData
         }).then((r) => {
-          resolve(r.status)
+          console.log('提交任务后返回的:', r)
+          resolve(r.ret)
         }).catch((r) => {
           console.log(r)
+          reject(r)
         })
       })
     },
-    handleClick1 () { // 带问题提交任务
-      this.taskSubmit().then(status => {
-        if (status === '0') {
+    handleClickWithQues () { // 带问题提交任务
+      this.taskSubmit().then(data => {
+        if (data.code === 100) {
           MessageBox({
             title: '提交完成',
             message: '待审核通过后发放奖励',
@@ -155,7 +160,7 @@ export default {
             this.$router.push({path: '/index'})// 提交带问题的任务完成,跳转到首页
           })
         } else {
-          console.log('提交失败')
+          alert('提交失败')
         }
       })
     },
@@ -168,8 +173,8 @@ export default {
         cancelButtonText: '是'
       }).then((val, action) => {
         if (val === 'confirm') { // 否(不打开问题收集页面，直接提交当前任务)
-          this.taskSubmit().then(status => {
-            if (status === '0') {
+          this.taskSubmit().then(data => {
+            if (data.code === 100) {
               MessageBox({
                 title: '提交完成',
                 message: '待审核通过后发放奖励',
@@ -191,6 +196,7 @@ export default {
   created () {
     this.userId = this.$store.getters.getCurrentUser.userId
     this.token = this.$store.getters.getToken
+    this.taskId = this.$store.getters.getCurrentTask.task_id
   }
 }
 </script>
@@ -244,7 +250,7 @@ export default {
         margin-top:.6rem;
       }
     }
-    .questionDetail{
+    .questionDetail1{
       position: fixed;
       left: 0;
       right: 0;

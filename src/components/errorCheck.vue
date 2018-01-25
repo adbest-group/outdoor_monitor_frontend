@@ -1,6 +1,6 @@
 <template>
   <div class="errorCheck">
-    <div class="currentCondition">当前状态：<span v-if="status === '1'">等待处理</span><span v-if="status === '2'">处理完成</span></div>
+    <div class="currentCondition">当前状态：<span v-if="status === 1">等待处理</span><span v-if="status === 2">处理完成</span></div>
     <div class="imgComtent clearfix" v-if="currentTask">
       <div class="imgWrapper">
         <img :src="currentTask.img_url_list[0]" class="img" id="img1"/>
@@ -10,27 +10,34 @@
       <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
       <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
       <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
-      <mt-cell title="问题反馈：内容不正确" is-link></mt-cell>
+      <mt-cell :title="getReason(currentTask)" is-link></mt-cell>
     </div>
-    <div v-if="status === '1'">
+    <div v-if="status === 1">
       <mt-button type="primary" @click.native="handleClick">返回</mt-button>
     </div>
     <div class="btns clearfix" v-else>
       <mt-button style="margin-left:0.1rem;" type="primary" @click.native="handleClick">返回</mt-button>
-      <div class="qr-btn" node-type="qr-btn">重新监测
-          <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码"  accept="image/*" capture="camera"/>
-      </div>
+        <div class="qr-btn" @click="uploadWrap()">重新监测
+            <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
+        </div>
     </div>
   </div>
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
 import checkMixin from '../mixins/checkMixin'
+import qrcodeMixin from '../mixins/qrcodeMixin'
 export default {
-  mixins: [checkMixin],
+  mixins: [checkMixin, qrcodeMixin],
+  methods: {
+    getReason (task) {
+      return '问题反馈：' + task.reason
+    }
+  },
   created () {
     // console.log(this.$route.query)
     if (this.$route.query.status) {
+      console.log(this.$route.query.status)
       this.status = this.$route.query.status
     }
     this.$store.commit('setCurrentType', '2')// 纠错

@@ -1,6 +1,6 @@
 <template>
 <!-- 此页面暂时不使用 -->
-  <div class="questionDetail">
+  <div class="questionDetail questionWrapper">
     <p class="title">问题详情</p>
     <mt-checklist
       align="right"
@@ -33,6 +33,14 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  .questionWrapper{
+    .mint-cell-wrapper{
+      padding:0!important;
+    }
+  }
+</style>
+
 <style lang="scss" scoped>
   .questionDetail{
     padding:1rem 0.6rem 0;
