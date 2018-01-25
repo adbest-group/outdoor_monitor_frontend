@@ -2,7 +2,7 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="3" v-show="userType === '1'">已处理完成</mt-tab-item>
+      <mt-tab-item id="3" v-show="userType === '2'">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">
@@ -22,8 +22,8 @@
     </mt-tab-container>
     <!-- <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div> -->
     <div>
-          <div class="qr-btn" node-type="qr-btn">我要纠错
-              <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" accept="image/*" capture="camera" />
+          <div class="qr-btn" @click="uploadWrap()">我要纠错
+              <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
           </div>
       </div>
   </div>
@@ -31,51 +31,44 @@
 
 <script>
 import listCell from '../components/listCell'
-import { initBtn } from '../config/qrcodeRequire'
+// import { initBtn } from '../config/qrcodeRequire'
+import qrcodeMixin from '../mixins/qrcodeMixin'
+import GLOBAL from '../config/global'
 export default {
   data () {
     return {
       selected: '1',
       value: '全部',
       userType: '1',
-      jiucuoList: {
-        'jiucuo_submit': [{
-          'task_id': '12',
-          'task_name': '南京西路地铁灯箱-1监测任务',
-          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
-          'ad_name': '南京西路地铁灯箱-1',
-          'monitor_time': '2018/01/16',
-          'ad_location': '人民广场候车亭-1',
-          'ad_status': '1', // 待审核
-          'feedback': '',
-          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
-        }],
-        'jiucuo_success': [{
-          'task_id': '12',
-          'task_name': '南京西路地铁灯箱-1监测任务',
-          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
-          'ad_name': '南京西路地铁灯箱-1',
-          'monitor_time': '2018/01/16',
-          'ad_location': '人民广场候车亭-1',
-          'ad_status': '2', // 2：通过审核 3：未通过审核
-          'feedback': '',
-          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
-        }]
-      }
+      jiucuoList: {}
     }
   },
+  mixins: [qrcodeMixin],
   methods: {
-
+    getTaskList () {
+      this.axios({
+        url: GLOBAL.URL.GET_TASK_LIST,
+        method: 'post',
+        data: {
+          type: 2 // 纠错列表
+        }
+      }).then((r) => {
+        console.log('纠错列表', JSON.stringify(r))
+        this.jiucuoList = r.ret.result
+      })
+    }
   },
   components: {
     listCell
   },
   created () {
     this.userType = this.$store.getters.getCurrentUser.userType
+    console.log(this.userType)
     this.$store.commit('setCurrentType', '2')// 纠错
+    this.getTaskList()
   },
   mounted () {
-    initBtn()
+    // initBtn()
   }
 }
 </script>

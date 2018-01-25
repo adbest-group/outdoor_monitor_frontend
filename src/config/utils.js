@@ -1,5 +1,5 @@
 /* calculate length of the input value */
-
+import { MessageBox } from 'mint-ui'
 // 移除class
 export function removeClass (element, className) {
   if (element.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))) {
@@ -66,5 +66,26 @@ export function isYesterday (date) {
   } else {
     // 其他
     return formatDate(date)
+  }
+}
+
+export function ifQrcode (_this) {
+  if (_this.$store.getters.getQrcode) {
+    let data = _this.$store.getters.getQrcode
+    // 将此信息解析为json
+    if (isJSON(data)) {
+      _this.qrcode = JSON.parse(data)
+    } else {
+      console.log('保存的二维码信息不是json格式或二维码未扫描成功')
+      MessageBox({
+        title: '二维码扫描失败',
+        message: '请尝试重新扫描二维码',
+        confirmButtonText: '确定'
+      }).then((val) => {
+        history.go(-1)
+      })
+    }
+  } else {
+    console.log('二维码信息未保存到本地存储里')
   }
 }

@@ -15,7 +15,7 @@
       </mt-tab-container>
     </div>
     <mt-tabbar v-model="selected" fixed>
-      <mt-tab-item id="咨询" v-if="userType === '0'">
+      <mt-tab-item id="咨询" v-if="userType === '2'">
         <!-- <img slot="icon" src="../assets/logo.png"> -->
         咨询
       </mt-tab-item>
@@ -40,7 +40,7 @@ export default {
   name: 'Index',
   data () {
     return {
-      userType: '0',
+      userType: '2',
       selected: '任务'
     }
   },
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getSelected () {
-      this.selected = this.userType === '0' ? '咨询' : '任务'
+      this.selected = this.userType === '2' ? '咨询' : '任务'
     }
   },
   mounted () {
@@ -60,6 +60,7 @@ export default {
   },
   created () {
     this.userType = this.$store.getters.getCurrentUser.userType
+    console.log(this.$store.getters.getCurrentUser)
     this.getSelected()
   }
 }

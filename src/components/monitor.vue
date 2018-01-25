@@ -8,22 +8,39 @@
       <p class="text"><span>--广告名称--</span></p>
       <p class="content"><span>{{currentTask.ad_name}}</span></p>
 
+      <p class="text"><span>--监测时间 ({{currentTask.task_type_text}})--</span></p>
+      <p class="content"><span>{{currentTask | filterTime}}</span></p>
+
       <p class="text textTwo"><span>--需监测广告位--</span></p>
       <p class="content"><span>{{currentTask.ad_location}}</span></p>
       <div>
-          <div class="qr-btn" node-type="qr-btn">监测
-              <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" accept="image/*" capture="camera" />
+          <div class="qr-btn" @click="uploadWrap()">监测
+              <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
           </div>
       </div>
     </template>
   </div>
 </template>
 <script>
-import { initBtn } from '../config/qrcodeRequire'
+// import { initBtn } from '../config/qrcodeRequire'
+import qrcodeMixin from '../mixins/qrcodeMixin'
 export default {
   data () {
     return {
       value: ''
+    }
+  },
+  mixins: [qrcodeMixin],
+  filters: {
+    filterTime (obj) {
+      switch (obj.task_type) {
+        case 1:
+          return obj.monitor_start
+        case 2:
+          return obj.monitor_start + ' ～ ' + obj.monitor_end
+        case 3:
+          return obj.monitor_end
+      }
     }
   },
   computed: {
@@ -32,15 +49,13 @@ export default {
     }
   },
   methods: {
-    handleClick () {
-      // this.$router.push({path: '/monitorInfo'})
-    }
+
   },
   created () {
-    console.log(this.$store.getters.getCurrentTask)
+    console.log('当前任务:', this.$store.getters.getCurrentTask)
   },
   mounted () {
-    initBtn()
+    // initBtn()
   }
 }
 </script>
@@ -51,7 +66,6 @@ input[node-type=jsbridge]{
 .monitor{
   text-align: center;
   padding:0 .64rem;
-  padding-top:0.3rem;
   .text,.content{
     text-align: center;
     height: 0.6rem;
@@ -60,15 +74,12 @@ input[node-type=jsbridge]{
   .text{
     color:#999;
   }
-  .textTwo{
-    margin-top:.6rem;
-  }
   .mint-button{
     width:100%;
     height:.56rem;
   }
   .qr-btn{
-    margin-top:0.6rem;
+    margin-top:0.2rem;
     width:100%;
     height:.56rem;
     color:#fff;

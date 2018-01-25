@@ -15,8 +15,7 @@
 </template>
 <script>
 import BackUp from './backUp.vue'
-import { MessageBox } from 'mint-ui'
-import { isJSON } from '../config/utils'
+import { ifQrcode } from '../config/utils'
 export default {
   data () {
     return {
@@ -40,25 +39,7 @@ export default {
     BackUp
   },
   created () {
-    if (localStorage.getItem('qrcode')) {
-      let data = localStorage.getItem('qrcode')
-      console.log(data)
-      // 将此信息解析为json
-      if (isJSON(data)) {
-        this.qrcode = JSON.parse(data)
-      } else {
-        console.log('保存的二维码信息不是json格式或二维码未扫描成功')
-        MessageBox({
-          title: '二维码扫描失败',
-          message: '请尝试重新扫描二维码',
-          confirmButtonText: '确定'
-        }).then((val) => {
-          history.go(-1)
-        })
-      }
-    } else {
-      console.log('二维码信息未保存到本地存储里')
-    }
+    ifQrcode(this)
   }
 }
 </script>

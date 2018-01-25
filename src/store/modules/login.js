@@ -1,13 +1,14 @@
 const state = {
   currentUser: {
     userId: null,
-    userType: '1', // 1.监测人员 0.客户//默认进来是监测人员
+    userType: '1', // 1.监测人员 2.客户//默认进来是监测人员
     realName: 'libin',
     company: '公司姓名'
   },
   token: '',
   currentType: '1', // 默认1是主任务，2是纠错任务
-  currentTask: null// 记录当前的任务（记录监测中或者查看中的任务）
+  currentTask: null, // 记录当前的任务（记录监测中或者查看中的任务）
+  qrcode: null// 记录扫码信息
 }
 // getters
 const getters = {
@@ -22,6 +23,9 @@ const getters = {
   },
   getCurrentTask () {
     return state.currentTask
+  },
+  getQrcode () {
+    return state.qrcode
   }
 }
 // actions
@@ -47,6 +51,9 @@ const mutations = {
   },
   setCurrentTask (state, currentTask) {
     state.currentTask = currentTask
+  },
+  setQrcode (state, qrcode) {
+    state.qrcode = qrcode
   }
 }
 

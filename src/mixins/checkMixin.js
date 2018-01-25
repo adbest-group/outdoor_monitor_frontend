@@ -1,4 +1,4 @@
-import { initBtn } from '../config/qrcodeRequire'
+// import { initBtn } from '../config/qrcodeRequire'
 
 export default {
   data () {
@@ -39,6 +39,6 @@ export default {
     }
   },
   mounted () {
-    initBtn()
+    // initBtn()
   }
 }

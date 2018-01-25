@@ -57,37 +57,6 @@ export default {
         }
       ],
       taskList: {// 主任务列表假数据
-        'wait_to_executed': [{
-          'task_id': '12',
-          'task_name': '南京西路地铁灯箱-1监测任务',
-          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
-          'ad_name': '南京西路地铁灯箱-1',
-          'monitor_time': '2018/01/16',
-          'ad_location': '人民广场候车亭-1',
-          'ad_status': '2', // 待执行
-          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
-        }],
-        'executing': [{
-          'task_id': '12',
-          'task_name': '南京西路地铁灯箱-1监测任务',
-          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
-          'ad_name': '南京西路地铁灯箱-1',
-          'monitor_time': '2018/01/16',
-          'ad_location': '人民广场候车亭-1',
-          'ad_status': '3', // 审核中
-          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
-        }],
-        'checked': [{
-          'task_id': '12',
-          'task_name': '南京西路地铁灯箱-1监测任务',
-          'ad_activity_name': 'KFC  CNY闻鸡起舞堡',
-          'ad_name': '南京西路地铁灯箱-1',
-          'monitor_time': '2018/01/16',
-          'ad_location': '人民广场候车亭-1',
-          'ad_status': '5', // 4：通过审核 5：未通过审核
-          'reason': '驳回理由：照片不清晰',
-          'img_url_list': ['http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg', 'http://img4.imgtn.bdimg.com/it/u=2094526173,856654999&fm=27&gp=0.jpg']
-        }]
       },
       userId: '',
       token: ''
@@ -99,13 +68,12 @@ export default {
         url: GLOBAL.URL.GET_TASK_LIST,
         method: 'post',
         data: {
-          token: this.token,
-          type: 1, // 任务列表
-          user_id: this.userId// 用户id
+          type: 1 // 任务列表
+          // user_id: this.userId// 用户id
         }
       }).then((r) => {
-        console.log('任务列表', r)
-        this.taskList = r.taskList
+        console.log('任务列表', JSON.stringify(r))
+        this.taskList = r.ret.result
       })
     }
   },
@@ -115,6 +83,7 @@ export default {
   created () {
     this.userId = this.$store.getters.getCurrentUser.userId
     this.token = this.$store.getters.getToken
+    this.getTaskList()
   }
 }
 </script>

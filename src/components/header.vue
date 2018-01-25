@@ -10,7 +10,7 @@ export default {
     return {
       realName: '',
       company: '',
-      userType: ''
+      userType: '1'
     }
   },
   methods: {
