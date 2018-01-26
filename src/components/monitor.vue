@@ -45,14 +45,11 @@ export default {
   },
   computed: {
     currentTask () {
-      return this.$store.getters.getCurrentTask
+      return JSON.parse(sessionStorage.getItem('currentTask'))
     }
   },
   methods: {
 
-  },
-  created () {
-    console.log('当前任务:', this.$store.getters.getCurrentTask)
   },
   mounted () {
     // initBtn()

@@ -6,6 +6,7 @@ const state = {
     company: '公司姓名'
   },
   token: '',
+  isChecked: '1',
   currentType: '1', // 默认1是主任务，2是纠错任务
   currentTask: null, // 记录当前的任务（记录监测中或者查看中的任务）
   qrcode: null// 记录扫码信息
@@ -14,6 +15,9 @@ const state = {
 const getters = {
   getCurrentUser: function () {
     return state.currentUser
+  },
+  getIsChecked () {
+    return state.isChecked
   },
   getToken () {
     return state.token
@@ -54,6 +58,9 @@ const mutations = {
   },
   setQrcode (state, qrcode) {
     state.qrcode = qrcode
+  },
+  setIsChecked (state, isChecked) {
+    state.isChecked = isChecked
   }
 }
 

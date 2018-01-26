@@ -6,7 +6,6 @@ import MonitorInfo from '@/components/monitorInfo'
 import Login from '@/components/login'
 import Photo from '@/components/photo'
 import PhotoCheck from '@/components/photoCheck'
-import QuestionDetail from '@/components/questionDetail'
 import ErrorCheck from '@/components/errorCheck'
 import ErrorPhoto from '@/components/errorPhoto'
 import Reward from '@/components/reward'
@@ -43,11 +42,6 @@ export default new Router({
       path: '/photo',
       name: 'photo',
       component: Photo
-    },
-    {
-      path: '/questionDetail',
-      name: 'questionDetail',
-      component: QuestionDetail
     },
     {
       path: '/photoCheck',

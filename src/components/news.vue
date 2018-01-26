@@ -1,6 +1,6 @@
 <template>
   <div class="news">
-    <el-collapse @change="handleChange">
+    <el-collapse v-if="activities">
       <el-collapse-item v-for="item in activities" :key="item.index" class="news-title">
         <template slot="title">
           {{item.activity_name}}
@@ -28,46 +28,34 @@ export default {
   data () {
     return {
       activeNames: ['1'],
-      activities: [{// 咨询列表
-        'activity_name': 'KFC  CNY闻鸡起舞堡',
-        'delivery_num': 100,
-        'monitor_num': 100,
-        'error_num': 20
-      },
-      {// 咨询列表
-        'activity_name': 'KFC  CNY闻鸡起舞堡',
-        'delivery_num': 100,
-        'monitor_num': 100,
-        'error_num': 20
-      }],
+      activities: null,
       currentUser: {}
     }
   },
   methods: {
-    handleChange (val) {
-      console.log(val)
-    },
     getActivities () {
       this.axios({
         url: GLOBAL.URL.GET_NEWS,
-        method: 'post',
-        data: {
-          user_id: this.user_id
-        }
+        method: 'get'
       }).then((r) => {
-        console.log('咨询', r)
-        this.activities = r.data.activities
+        this.activities = r.ret.result
       })
-    },
-    created () {
-
     }
+  },
+  created () {
+    this.getActivities()
+  },
+  activated () {
+    this.getActivities()
   }
 }
 </script>
 
 <style lang="scss" scoped>
   .news{
+    .el-collapse{
+      margin-bottom:0.6rem;
+    }
     .news-title{
       text-indent: .15rem;
     }

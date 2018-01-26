@@ -40,8 +40,7 @@ export default {
         //   ad_seat_name: '新联路1号灯箱',
         //   pic_url: 'http://www.dealswill.com/static/demo.png'
         // }
-        this.$store.commit('setQrcode', JSON.stringify(qrcode))
-        console.log('呵呵二维码信息', r)
+        sessionStorage.setItem('qrcode', JSON.stringify(qrcode))
         let origin = window.location.origin
         location.href = `${origin}/#/monitorInfo`
       }).catch((r) => {

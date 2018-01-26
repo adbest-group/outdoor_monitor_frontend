@@ -9,7 +9,7 @@ export default {
   },
   computed: {
     currentTask () {
-      return this.$store.getters.getCurrentTask
+      return JSON.parse(sessionStorage.getItem('currentTask'))
     }
   },
   methods: {
@@ -21,7 +21,7 @@ export default {
       let length = c.length - 1
       let index = c.substr(length, 1)
       // 同时放入本地临时数组中
-      _this.imgArr[index] = file
+      _this.imgArr[index - 1] = file
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = function (e) {

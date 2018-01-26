@@ -18,7 +18,7 @@
         <mt-cell :title="currentTime" is-link></mt-cell>
         <mt-cell :title="qrcode.ad_seat_name" is-link></mt-cell>
       </div>
-      <mt-button type="primary" @click.native="handleClick">确定</mt-button>
+      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClick">确定</mt-button>
     </div>
     <div class="questionDetail1" v-show="questionDetail">
       <p class="title">问题详情</p>
@@ -28,7 +28,7 @@
         :options="['内容不正确', '结构有问题', '编号不存在','灯光不亮']">
       </mt-checklist>
       <mt-field class="mint-define" placeholder="其他问题" type="textarea" rows="4" v-model="otherQuestion"></mt-field>
-      <mt-button type="primary" @click.native="handleClickWithQues">提交</mt-button>
+      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClickWithQues">提交</mt-button>
     </div>
   </div>
 </template>
@@ -49,7 +49,8 @@ export default {
       qrcode: null,
       questionDetail: false,
       value: [],
-      otherQuestion: ''
+      otherQuestion: '',
+      isCommit: false
     }
   },
   // mixins: [checkMixin],
@@ -62,7 +63,7 @@ export default {
       let length = c.length - 1
       let index = c.substr(length, 1)
       // 同时放入本地临时数组中
-      _this.imgArr[index] = file
+      _this.imgArr[index - 1] = file
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = function (e) {
@@ -75,12 +76,24 @@ export default {
       let input = document.querySelector('#fileBtn' + val)
       input.click()
     },
+    checkImg () {
+      if (this.imgArr.length !== 1) {
+        // 提交前看一下图片是否是1张
+        console.log(this.imgArr)
+        MessageBox({
+          title: '照片不全',
+          message: '必须拍1张照片！',
+          confirmButtonText: '确定'
+        }).then((val) => {
+          return false
+        })
+        return false
+      } else {
+        return true
+      }
+    },
     taskSubmit () { // 任务提交方法
-      // if (this.imgArr.length !== 4) {
-      //   // 提交前看一下图片是否是四张
-      //   console.log(this.imgArr)
-      //   return false
-      // }
+      console.log('length', this.imgArr)
       let formData = new FormData()
       for (let i = 1; i < 2; i++) {
         let doc = document.querySelector('#fileBtn' + i)
@@ -98,6 +111,10 @@ export default {
       formData.append('lat', '')
       formData.append('problem', this.value.join(','))
       formData.append('other', this.otherQuestion)
+      if (this.isCommit) { // 是否已经点击提交
+        return false
+      }
+      this.isCommit = true
       return new Promise((resolve, reject) => {
         this.axios({
           url: GLOBAL.URL.TASK_SUBMIT,
@@ -129,6 +146,9 @@ export default {
       })
     },
     handleClick () { // 任务提交动作（不带问题的）
+      if (!this.checkImg()) {
+        return false
+      }
       this.questionDetail = true
     }
   },
@@ -145,6 +165,9 @@ export default {
 </script>
 <style lang="scss">
   .errorPhoto{
+    .greyBackground{
+      background:#ccc;
+    }
     .div{
       padding:1rem .7rem 0;
       .imgComtent{

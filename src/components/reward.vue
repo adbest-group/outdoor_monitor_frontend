@@ -1,5 +1,5 @@
 <template>
-  <div class="reward-wrapper">
+  <div class="reward-wrapper" v-if="reward">
     <back-up></back-up>
     <div class="my-reward">
       <h3 class="title">我的奖励</h3>
@@ -15,22 +15,7 @@ import GLOBAL from '../config/global'
 export default {
   data () {
     return {
-      reward: {
-        'total_reward': 40,
-        'detail': [{
-          'date': '2018/01/16',
-          'time': '12:12',
-          'reward': '20'
-        }, {
-          'date': '2018/01/16',
-          'time': '12:12',
-          'reward': '20'
-        }, {
-          'date': '2018/01/16',
-          'time': '12:12',
-          'reward': '20'
-        }]
-      },
+      reward: null,
       token: '',
       userId: ''
     }
@@ -42,16 +27,19 @@ export default {
     getReward () { // 获取当前用户的奖品信息
       this.axios({
         url: GLOBAL.URL.GET_REWARD,
-        method: 'post',
-        data: {
-          token: this.token,
-          user_id: this.userId// 用户id
-        }
+        method: 'post'
+        // data: {
+        //   token: this.token,
+        //   user_id: this.userId// 用户id
+        // }
       }).then((r) => {
         console.log(r) // 奖励信息
-        this.reward = r.data
+        this.reward = r.ret.result
       })
     }
+  },
+  created () {
+    this.getReward()
   },
   components: {
     BackUp,

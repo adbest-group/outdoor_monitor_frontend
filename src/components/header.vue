@@ -16,12 +16,19 @@ export default {
   methods: {
     toLink () {
       this.$router.push('/reward')
+    },
+    getInfo () {
+      let currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
+      this.realName = currentUser.realName
+      this.company = currentUser.company
+      this.userType = currentUser.userType
     }
   },
+  activated () {
+    this.getInfo()
+  },
   created () {
-    this.realName = this.$store.getters.getCurrentUser.realName
-    this.company = this.$store.getters.getCurrentUser.company
-    this.userType = this.$store.getters.getCurrentUser.userType
+    this.getInfo()
   }
 }
 </script>

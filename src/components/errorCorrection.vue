@@ -9,15 +9,15 @@
       <!-- <button @click="clicka()">fasfadsfsad</button> -->
       <mt-tab-container-item id="1">
         <!-- 待执行列表 -->
-        <list-cell :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
+        <list-cell v-if="jiucuoList.jiucuo_submit" :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <!-- 执行中列表 -->
-        <list-cell :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
+        <list-cell v-if="jiucuoList.jiucuo_submit" :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="3" class="verifiedMission">
         <!-- 已审核列表 -->
-        <list-cell :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
+        <list-cell v-if="jiucuoList.success" :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
     <!-- <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div> -->
@@ -53,7 +53,7 @@ export default {
           type: 2 // 纠错列表
         }
       }).then((r) => {
-        console.log('纠错列表', JSON.stringify(r))
+        // console.log('纠错列表', JSON.stringify(r))
         this.jiucuoList = r.ret.result
       })
     }
@@ -61,14 +61,15 @@ export default {
   components: {
     listCell
   },
-  created () {
-    this.userType = this.$store.getters.getCurrentUser.userType
-    console.log(this.userType)
-    this.$store.commit('setCurrentType', '2')// 纠错
+  activated () {
     this.getTaskList()
   },
-  mounted () {
-    // initBtn()
+  created () {
+    this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
+    // console.log(this.userType)
+    // this.$store.commit('setCurrentType', '2')// 纠错
+    sessionStorage.setItem('currentType', '2')
+    this.getTaskList()
   }
 }
 </script>

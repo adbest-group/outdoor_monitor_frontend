@@ -70,8 +70,8 @@ export function isYesterday (date) {
 }
 
 export function ifQrcode (_this) {
-  if (_this.$store.getters.getQrcode) {
-    let data = _this.$store.getters.getQrcode
+  if (sessionStorage.getItem('qrcode')) {
+    let data = sessionStorage.getItem('qrcode')
     // 将此信息解析为json
     if (isJSON(data)) {
       _this.qrcode = JSON.parse(data)

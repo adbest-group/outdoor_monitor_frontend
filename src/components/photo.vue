@@ -48,7 +48,7 @@
         <mt-cell :title="currentTime" is-link></mt-cell>
         <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
       </div>
-      <mt-button type="primary" @click.native="handleClick">确定</mt-button>
+      <mt-button type="primary"  :class="{greyBackground:isCommit}" @click.native="handleClick">确定</mt-button>
     </div>
     <div class="questionDetail1" v-show="questionDetail">
       <p class="title">问题详情</p>
@@ -58,7 +58,7 @@
         :options="['内容不正确', '结构有问题', '编号不存在','灯光不亮']">
       </mt-checklist>
       <mt-field class="mint-define" placeholder="其他问题" type="textarea" rows="4" v-model="otherQuestion"></mt-field>
-      <mt-button type="primary" @click.native="handleClickWithQues">提交</mt-button>
+      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClickWithQues">提交</mt-button>
     </div>
   </div>
 
@@ -79,12 +79,13 @@ export default {
       userId: '',
       questionDetail: false,
       value: [],
-      otherQuestion: ''
+      otherQuestion: '',
+      isCommit: false
     }
   },
   computed: {
     currentTask () {
-      return this.$store.getters.getCurrentTask
+      return JSON.parse(sessionStorage.getItem('currentTask'))
     },
     currentTime () {
       return moment().format('YYYY-MM-DD HH:mm:ss')
@@ -99,7 +100,7 @@ export default {
       let length = c.length - 1
       let index = c.substr(length, 1)
       // 同时放入本地临时数组中
-      _this.imgArr[index] = file
+      _this.imgArr[index - 1] = file
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = function (e) {
@@ -112,12 +113,23 @@ export default {
       let input = document.querySelector('#fileBtn' + val)
       input.click()
     },
+    checkImg () {
+      if (this.imgArr.length !== 4) {
+        // 提交前看一下图片是否是四张
+        console.log('length', this.imgArr)
+        MessageBox({
+          title: '照片不全',
+          message: '必须拍四张照片！',
+          confirmButtonText: '确定'
+        }).then((val) => {
+          return false
+        })
+        return false
+      } else {
+        return true
+      }
+    },
     taskSubmit () { // 任务提交方法
-      // if (this.imgArr.length !== 4) {
-      //   // 提交前看一下图片是否是四张
-      //   console.log(this.imgArr)
-      //   return false
-      // }
       let formData = new FormData()
       for (let i = 1; i < 5; i++) {
         let doc = document.querySelector('#fileBtn' + i)
@@ -134,6 +146,10 @@ export default {
       formData.append('lat', '')
       formData.append('problem', this.value.join(','))
       formData.append('other', this.otherQuestion)
+      if (this.isCommit) {
+        return false
+      }
+      this.isCommit = true
       return new Promise((resolve, reject) => {
         this.axios({
           url: GLOBAL.URL.TASK_SUBMIT,
@@ -165,6 +181,9 @@ export default {
       })
     },
     handleClick () { // 任务提交动作（不带问题的）
+      if (!this.checkImg()) {
+        return false
+      }
       MessageBox({
         title: '问题反馈',
         message: '您监测的广告牌是否有问题?',
@@ -194,9 +213,9 @@ export default {
     }
   },
   created () {
-    this.userId = this.$store.getters.getCurrentUser.userId
-    this.token = this.$store.getters.getToken
-    this.taskId = this.$store.getters.getCurrentTask.task_id
+    this.userId = JSON.parse(sessionStorage.getItem('currentUser')).userId
+    // this.token = this.$store.getters.getToken
+    this.taskId = JSON.parse(sessionStorage.getItem('currentTask')).task_id
   }
 }
 </script>
@@ -281,6 +300,9 @@ export default {
         height:.56rem;
         margin-top:.92rem;
       }
+    }
+    .greyBackground{
+      background:#ccc;
     }
   }
 </style>
