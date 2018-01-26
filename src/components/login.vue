@@ -13,12 +13,14 @@
 <script>
 import { MessageBox } from 'mint-ui'
 import GLOBAL from '../config/global'
+// testkh@adbest.com
+// 68755498@qq.com
 export default {
   data () {
     return {
       form: {
-        username: '',
-        password: '',
+        username: 'testkh@adbest.com',
+        password: '123456',
         captcha: ''
       },
       vcode_img: '',
@@ -57,7 +59,8 @@ export default {
           currentUser.userType = data.usertype.toString()
           currentUser.company = data.company
           currentUser.realName = data.realname
-          this.$store.commit('setCurrentUser', currentUser)
+          // this.$store.commit('setCurrentUser', currentUser)
+          sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
           this.$router.push({path: '/index'})// 跳转首页
         } else if (code === 101) {
           MessageBox.alert(message)

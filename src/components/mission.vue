@@ -13,11 +13,11 @@
         <!-- <mt-cell title="标题文字" to="/monitor" is-link>
           <span style="color: green">监测</span>
         </mt-cell> -->
-        <list-cell :list='taskList.wait_to_executed'></list-cell>
+        <list-cell  v-if="taskList.wait_to_executed" :list='taskList.wait_to_executed'></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <!-- 执行中列表 -->
-        <list-cell :list='taskList.executing'></list-cell>
+        <list-cell v-if="taskList.executing" :list='taskList.executing'></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="3" class="verifiedMission">
         <!-- 已审核列表 -->
@@ -29,7 +29,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <list-cell :list='taskList.checked'></list-cell>
+        <list-cell v-if="taskList.checked" :isChecked="ifHasChecked"  :list='taskList.checked'></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
   </div>
@@ -43,6 +43,7 @@ export default {
     return {
       selected: '1',
       value: '全部',
+      ifHasChecked: '1', // 1展示全部2,展示已审核3,展示未审核
       options: [
         {
           value: null,
@@ -62,6 +63,23 @@ export default {
       token: ''
     }
   },
+  watch: {
+    value (n, o) {
+      switch (n) {
+        case null:
+          this.ifHasChecked = '1'
+          break
+        case 1:
+          this.ifHasChecked = '2'
+          break
+        case 0:
+          this.ifHasChecked = '3'
+          break
+        default:
+          break
+      }
+    }
+  },
   methods: {
     getTaskList () {
       this.axios({
@@ -72,7 +90,6 @@ export default {
           // user_id: this.userId// 用户id
         }
       }).then((r) => {
-        console.log('任务列表', JSON.stringify(r))
         this.taskList = r.ret.result
       })
     }
@@ -80,9 +97,12 @@ export default {
   components: {
     listCell
   },
+  activated () {
+    this.getTaskList()
+  },
   created () {
-    this.userId = this.$store.getters.getCurrentUser.userId
-    this.token = this.$store.getters.getToken
+    this.userId = JSON.parse(sessionStorage.getItem('currentUser')).userId
+    // this.token = this.$store.getters.getToken
     this.getTaskList()
   }
 }

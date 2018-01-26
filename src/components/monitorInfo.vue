@@ -24,7 +24,8 @@ export default {
   },
   methods: {
     handleClick () {
-      let type = this.$store.getters.getCurrentType
+      // let type = this.$store.getters.getCurrentType
+      let type = sessionStorage.getItem('currentType')
       if (type === '1') { // 主线任务
         this.$router.push({path: '/photo'})
       } else if (type === '2') { // 纠错任务

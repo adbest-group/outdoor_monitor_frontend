@@ -40,7 +40,8 @@ export default {
       console.log(this.$route.query.status)
       this.status = this.$route.query.status
     }
-    this.$store.commit('setCurrentType', '2')// 纠错
+    // this.$store.commit('setCurrentType', '2')// 纠错
+    sessionStorage.setItem('currentType', '2')
   }
 }
 </script>

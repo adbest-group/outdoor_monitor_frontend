@@ -1,25 +1,25 @@
 <template>
   <div class="listCell">
     <ul v-if="list.length > 0">
-      <li
-        class="cell"
-        v-if="list"
-        v-for="cell in list"
-        :key="cell.task_id"
-        @click="toLink(cell.ad_status,cell)">
+      <template v-if="list" v-for="cell in list">
+        <li
+          class="cell"
+          :key="cell.task_id"
+          @click="toLink(cell.ad_status,cell)" v-if="cell.ad_status === 4 && isChecked !=='3' || cell.ad_status === 5 && isChecked !=='2' || cell.ad_status === 1 || cell.ad_status === 2 || cell.ad_status === 3">
 
-        <div v-if="showStatus(cell.ad_status)"
-             class="ad-status"
-             :class="statusClass(cell.ad_status)">
-              {{statusText(cell.ad_status)}}
-        </div>
-        <div class="ad-name" v-if="type ===1">({{cell.task_type_text}}) {{cell.ad_name}}</div>
-        <div class="ad-name" v-else>({{cell.monitor_time}}) {{cell.ad_name}}</div>
-        <div class="ad-see">
-          {{cell.ad_status === 2 && type === 1 ? '监测' : '查看'}}
-          <span class="el-icon-arrow-right"></span>
-        </div>
-      </li>
+          <div v-if="showStatus(cell.ad_status)"
+              class="ad-status"
+              :class="statusClass(cell.ad_status)">
+                {{statusText(cell.ad_status)}}
+          </div>
+          <div class="ad-name" v-if="type ===1">({{cell.task_type_text}}) {{cell.ad_name}}</div>
+          <div class="ad-name" v-else>({{cell.monitor_time}}) {{cell.ad_name}}</div>
+          <div class="ad-see">
+            {{cell.ad_status === 2 && type === 1 ? '监测' : '查看'}}
+            <span class="el-icon-arrow-right"></span>
+          </div>
+        </li>
+      </template>
     </ul>
     <p v-else class="no-list" >暂时没有相关数据</p>
   </div>
@@ -34,14 +34,20 @@ export default {
     type: { // 1 为任务  2 为纠错
       type: Number,
       default: 1
+    },
+    isChecked: {
+      type: String,
+      default: '1'// 展示全部审核（包含已审核和未审核）
     }
   },
   methods: {
     toLink (status, cell) { // 跳转链接
-      this.$store.commit('setCurrentTask', cell)// 保存当前的任务(无论是主线（监测）任务，还是纠错任务)
+      // this.$store.commit('setCurrentTask', cell)// 保存当前的任务(无论是主线（监测）任务，还是纠错任务)
+      sessionStorage.setItem('currentTask', JSON.stringify(cell))
       if (this.type === 1) {
         if (status === 2) { // 监测
-          this.$store.commit('setCurrentType', '1')
+          // this.$store.commit('setCurrentType', '1')
+          sessionStorage.setItem('currentType', '1')
           this.$router.push({path: '/monitor'})
         } else {
           this.$router.push({path: '/photoCheck', query: {'status': status}})

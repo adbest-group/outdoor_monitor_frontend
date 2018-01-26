@@ -55,12 +55,12 @@ export default {
       this.selected = this.userType === '2' ? '咨询' : '任务'
     }
   },
-  mounted () {
-
+  activated () {
+    this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
+    this.getSelected()
   },
   created () {
-    this.userType = this.$store.getters.getCurrentUser.userType
-    console.log(this.$store.getters.getCurrentUser)
+    this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
     this.getSelected()
   }
 }

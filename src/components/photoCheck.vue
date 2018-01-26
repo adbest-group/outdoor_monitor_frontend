@@ -52,7 +52,8 @@ export default {
     if (this.$route.query.status) {
       this.status = this.$route.query.status
     }
-    this.$store.commit('setCurrentType', '1')// 主线
+    // this.$store.commit('setCurrentType', '1')// 主线
+    sessionStorage.setItem('currentType', '1')
   }
 }
 </script>
