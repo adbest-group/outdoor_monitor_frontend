@@ -108,7 +108,7 @@ export default {
       border-bottom: 1px solid #ddd;
       .ad-status{
         color: #fff;
-        width: 1.45rem;
+        padding-left:0.1rem;
         line-height: $height;
         text-align: center;
 
@@ -122,6 +122,7 @@ export default {
 
       .ad-name{
         flex: 1;
+        padding-left:0.1rem;
         line-height: $height;
         font-size: .24rem;
         overflow: hidden;
