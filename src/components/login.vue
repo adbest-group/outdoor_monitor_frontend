@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       form: {
-        username: 'testkh@adbest.com',
+        username: '68755498@qq.com',
         password: '123456',
         captcha: ''
       },

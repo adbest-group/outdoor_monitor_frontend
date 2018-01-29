@@ -31,7 +31,11 @@ export default {
   mixins: [checkMixin, qrcodeMixin],
   methods: {
     getReason (task) {
-      return '问题反馈：' + task.reason
+      if (task.reason) {
+        return '问题反馈：' + task.reason
+      } else {
+        return '问题反馈'
+      }
     }
   },
   created () {
