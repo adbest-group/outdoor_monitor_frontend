@@ -2,7 +2,7 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="3" v-show="userType === '2'">已处理完成</mt-tab-item>
+      <mt-tab-item id="3" v-if="userType === '2'">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">
@@ -11,13 +11,9 @@
         <!-- 待执行列表 -->
         <list-cell v-if="jiucuoList.jiucuo_submit" :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
       </mt-tab-container-item>
-      <mt-tab-container-item id="2">
-        <!-- 执行中列表 -->
-        <list-cell v-if="jiucuoList.jiucuo_submit" :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
-      </mt-tab-container-item>
       <mt-tab-container-item id="3" class="verifiedMission">
         <!-- 已审核列表 -->
-        <list-cell v-if="jiucuoList.success" :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
+        <list-cell v-if="jiucuoList.jiucuo_success" :list='jiucuoList.jiucuo_success' :type="2"></list-cell>
       </mt-tab-container-item>
     </mt-tab-container>
     <!-- <div @click="redirectMonitor()" class="jiucuoBtn">我要纠错</div> -->
@@ -30,6 +26,10 @@
 </template>
 
 <script>
+// <mt-tab-container-item id="2">
+//         <!-- 执行中列表 -->
+//         <list-cell v-if="jiucuoList.jiucuo_submit" :list='jiucuoList.jiucuo_submit' :type="2"></list-cell>
+//       </mt-tab-container-item>
 import listCell from '../components/listCell'
 // import { initBtn } from '../config/qrcodeRequire'
 import qrcodeMixin from '../mixins/qrcodeMixin'
@@ -53,15 +53,21 @@ export default {
           type: 2 // 纠错列表
         }
       }).then((r) => {
-        // console.log('纠错列表', JSON.stringify(r))
         this.jiucuoList = r.ret.result
       })
+    }
+  },
+  watch: {
+    selected (val) {
+      this.getTaskList()
     }
   },
   components: {
     listCell
   },
   activated () {
+    this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
+    sessionStorage.setItem('currentType', '2')
     this.getTaskList()
   },
   created () {

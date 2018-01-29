@@ -44,7 +44,11 @@ export default {
   mixins: [checkMixin, qrcodeMixin],
   methods: {
     getReason (task) {
-      return '审核未通过:' + task.reason
+      if (task.reason) {
+        return '审核未通过：' + task.reason
+      } else {
+        return '审核未通过'
+      }
     }
   },
   created () {

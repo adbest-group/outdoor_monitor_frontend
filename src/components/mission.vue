@@ -78,6 +78,9 @@ export default {
         default:
           break
       }
+    },
+    selected (val) {
+      this.getTaskList()
     }
   },
   methods: {

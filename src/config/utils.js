@@ -89,3 +89,81 @@ export function ifQrcode (_this) {
     console.log('二维码信息未保存到本地存储里')
   }
 }
+/*
+* 图片压缩
+* img    原始图片
+* width   压缩后的宽度
+* height  压缩后的高度
+* ratio   压缩比率
+*/
+/* eslint-disable */
+export function compress (imgs, ratio) {
+  var canvas, ctx, img64, scale, w, h,image
+  if(Object.prototype.toString.call(imgs) === '[object Array]'){
+    let arrTemp = []
+    for(let i = 0; i < imgs.length ;i++){
+      let reader = new FileReader()
+      reader.readAsDataURL(imgs[i].files[0])
+      let a = new Promise((resolve,reject)=>{
+        reader.onload = function(e){
+          image = new Image()
+          image.src = e.target.result
+          image.onload = function () {
+            var that = this
+            // 默认按比例压缩
+            w = that.width
+            h = that.height
+            scale = w / h
+            canvas = document.createElement('canvas')
+            canvas.width = w
+            canvas.height = h
+            ctx = canvas.getContext('2d')
+            ctx.drawImage(image, 0, 0, w, h)
+            img64 = canvas.toDataURL('image/jpeg', ratio)
+            resolve(img64)
+          }
+        }
+      })
+      arrTemp.push(a)
+    }
+    let read = Promise.all(arrTemp)
+
+    return read
+  }else if(Object.prototype.toString.call(imgs) === '[object HTMLInputElement]'){
+    let reader = new FileReader()
+    reader.readAsDataURL(imgs.files[0])
+    let base64 = new Promise((resolve,reject)=>{
+      reader.onload = function(e){
+        image = new Image()
+        image.src = e.target.result
+        image.onload = function () {
+          var that = this
+          // 默认按比例压缩
+          w = that.width
+          h = that.height
+          scale = w / h
+          canvas = document.createElement('canvas')
+          canvas.width = w
+          canvas.height = h
+          ctx = canvas.getContext('2d')
+          ctx.drawImage(image, 0, 0, w, h)
+          img64 = canvas.toDataURL('image/jpeg', ratio)
+          resolve(img64)
+        }
+      }
+    })
+    return base64
+  }else{
+    console.log(Object.prototype.toString.call(imgs))
+  }
+}
+export function alertByte (base64_str){
+  let str = base64_str.substring(22);
+  var equalIndex= str.indexOf('=');
+  if (str.indexOf('=')>0) {
+    str=str.substring(0, equalIndex);
+  }
+  var strLength=str.length;
+  var fileLength=parseInt(strLength-(strLength/8)*2);
+  return fileLength
+}

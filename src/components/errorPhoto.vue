@@ -18,7 +18,7 @@
         <mt-cell :title="currentTime" is-link></mt-cell>
         <mt-cell :title="qrcode.ad_seat_name" is-link></mt-cell>
       </div>
-      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClick">确定</mt-button>
+      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClick">{{confirm}}</mt-button>
     </div>
     <div class="questionDetail1" v-show="questionDetail">
       <p class="title">问题详情</p>
@@ -28,12 +28,12 @@
         :options="['内容不正确', '结构有问题', '编号不存在','灯光不亮']">
       </mt-checklist>
       <mt-field class="mint-define" placeholder="其他问题" type="textarea" rows="4" v-model="otherQuestion"></mt-field>
-      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClickWithQues">提交</mt-button>
+      <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClickWithQues">{{submit}}</mt-button>
     </div>
   </div>
 </template>
 <script>
-import { ifQrcode } from '../config/utils'
+import { ifQrcode, compress } from '../config/utils'
 import { MessageBox } from 'mint-ui'
 import GLOBAL from '../config/global'
 // import checkMixin from '../mixins/checkMixin'
@@ -50,7 +50,9 @@ export default {
       questionDetail: false,
       value: [],
       otherQuestion: '',
-      isCommit: false
+      isCommit: false,
+      confirm: '确定',
+      submit: '提交'
     }
   },
   // mixins: [checkMixin],
@@ -95,17 +97,12 @@ export default {
     taskSubmit () { // 任务提交方法
       console.log('length', this.imgArr)
       let formData = new FormData()
+      let docs = []// 存放一张照片
       for (let i = 1; i < 2; i++) {
         let doc = document.querySelector('#fileBtn' + i)
-        formData.append('pic' + i, doc.files[0])
+        docs.push(doc)
       }
-      // formData.append('token', this.token)
-      // formData.append('activity_id', '234')
-      // formData.append('ad_location_id', '123')
-      // formData.append('user_id', this.userId)
-
       formData.append('type', '2')// 1 代表监测任务 2 代表纠错任务
-      // formData.append('task_id', this.taskId)
       formData.append('ad_activity_seat_id', this.qrcode.ad_activity_seat_id)
       formData.append('lon', '')
       formData.append('lat', '')
@@ -115,18 +112,25 @@ export default {
         return false
       }
       this.isCommit = true
+      this.submit = '正在提交，请稍后...'
+      this.confirm = '正在提交，请稍后...'
       return new Promise((resolve, reject) => {
-        this.axios({
-          url: GLOBAL.URL.TASK_SUBMIT,
-          method: 'post',
-          contentType: 'multipart/form-data',
-          data: formData
-        }).then((r) => {
-          console.log('提交任务后返回的:', r)
-          resolve(r.ret)
-        }).catch((r) => {
-          console.log(r)
-          reject(r)
+        compress(docs, 0.01).then(datas => {
+          for (let i = 1; i < 5; i++) {
+            formData.append('pic' + i, datas[i - 1])
+          }
+          this.axios({
+            url: GLOBAL.URL.TASK_SUBMIT,
+            method: 'post',
+            contentType: 'multipart/form-data',
+            data: formData
+          }).then((r) => {
+            console.log('提交任务后返回的:', r)
+            resolve(r.ret)
+          }).catch((r) => {
+            console.log(r)
+            reject(r)
+          })
         })
       })
     },

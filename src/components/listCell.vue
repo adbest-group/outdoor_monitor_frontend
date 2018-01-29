@@ -123,7 +123,6 @@ export default {
       .ad-name{
         flex: 1;
         line-height: $height;
-        margin-left: .15rem;
         font-size: .24rem;
         overflow: hidden;
         text-overflow:ellipsis;
