@@ -1,6 +1,6 @@
 <template>
   <div class="errorCheck">
-    <div class="currentCondition">当前状态：<span v-if="status === 1">等待处理</span><span v-if="status === 2">处理完成</span></div>
+    <div class="currentCondition">当前状态：<span v-if="status === 1">等待处理</span><span v-if="status === 2 || status === 3">处理完成</span></div>
     <div class="imgComtent clearfix" v-if="currentTask">
       <div class="imgWrapper">
         <img :src="currentTask.img_url_list[0]" class="img" id="img1"/>
@@ -12,15 +12,16 @@
       <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
       <mt-cell :title="getReason(currentTask)" is-link></mt-cell>
     </div>
-    <div v-if="status === 1">
+     <!-- v-if="status === 1" -->
+    <div>
       <mt-button type="primary" @click.native="handleClick">返回</mt-button>
     </div>
-    <div class="btns clearfix" v-else>
+    <!-- <div class="btns clearfix" v-else>
       <mt-button style="margin-left:0.1rem;" type="primary" @click.native="handleClick">返回</mt-button>
         <div class="qr-btn" @click="uploadWrap()">重新监测
             <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
         </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -54,7 +55,7 @@ input[node-type=jsbridge]{
     display:none;
 }
   .errorCheck{
-    padding:1rem .7rem 0;
+    padding:0.5rem .7rem 0;
     .currentCondition{
       font-size:.26rem;
       text-align: center
