@@ -83,7 +83,8 @@ export default {
       otherQuestion: '',
       isCommit: false,
       confirm: '确定',
-      submit: '提交'
+      submit: '提交',
+      imgBase64Arr: []// 存放四张图片的base64格式
     }
   },
   computed: {
@@ -110,6 +111,10 @@ export default {
         $d.setAttribute('src', e.target.result)
         let str = (d + 'Dis').substr(1)
         _this[str] = true
+        let doc = document.querySelector('#fileBtn' + index)
+        compress(doc, 0.01).then(data => {
+          _this.imgBase64Arr[index - 1] = data
+        })
       }
     },
     imgClick (val) {
@@ -119,7 +124,6 @@ export default {
     checkImg () {
       if (this.imgArr.length !== 4) {
         // 提交前看一下图片是否是四张
-        console.log('length', this.imgArr)
         MessageBox({
           title: '照片不全',
           message: '必须拍四张照片！',
@@ -134,41 +138,33 @@ export default {
     },
     taskSubmit () { // 任务提交方法
       let formData = new FormData()
-      let docs = []// 存放四张照片
       formData.append('type', '1')// 1 代表监测任务
       formData.append('task_id', this.taskId)
       formData.append('lon', '')
       formData.append('lat', '')
       formData.append('problem', this.value.join(','))
       formData.append('other', this.otherQuestion)
-      for (let i = 1; i < 5; i++) {
-        let doc = document.querySelector('#fileBtn' + i)
-        docs.push(doc)
+      for (let i = 0; i < this.imgBase64Arr.length; i++) {
+        formData.append('pic' + (i + 1), this.imgBase64Arr[i])
       }
       return new Promise((resolve, reject) => {
-        compress(docs, 0.01).then(datas => {
-          console.log('四个图片的字符串格式:', datas)
-          for (let i = 1; i < 5; i++) {
-            formData.append('pic' + i, datas[i - 1])
-          }
-          if (this.isCommit) {
-            return false
-          }
-          this.isCommit = true
-          this.confirm = '正在上传，请稍后...'
-          this.submit = '正在上传，请稍后...'
-          this.axios({
-            url: GLOBAL.URL.TASK_SUBMIT,
-            method: 'post',
-            contentType: 'multipart/form-data',
-            data: formData
-          }).then((r) => {
-            console.log('提交任务后返回的:', r)
-            resolve(r.ret)
-          }).catch((r) => {
-            console.log(r)
-            reject(r)
-          })
+        if (this.isCommit) {
+          return false
+        }
+        this.isCommit = true
+        this.confirm = '正在上传，请稍后...'
+        this.submit = '正在上传，请稍后...'
+        this.axios({
+          url: GLOBAL.URL.TASK_SUBMIT,
+          method: 'post',
+          contentType: 'multipart/form-data',
+          data: formData
+        }).then((r) => {
+          console.log('提交任务后返回的:', r)
+          resolve(r.ret)
+        }).catch((r) => {
+          console.log(r)
+          reject(r)
         })
       })
       // formData.append('token', this.token)

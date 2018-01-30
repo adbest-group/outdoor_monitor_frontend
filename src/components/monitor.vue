@@ -6,7 +6,7 @@
         <img :src="currentTask.img_url_list[0]" alt="">
       </div>
       <p class="text"><span>--广告名称--</span></p>
-      <p class="content"><span>{{currentTask.ad_name}}</span></p>
+      <p class="content"><span>{{currentTask.ad_activity_name}}</span></p>
 
       <p class="text"><span>--监测时间 ({{currentTask.task_type_text}})--</span></p>
       <p class="content"><span>{{currentTask | filterTime}}</span></p>

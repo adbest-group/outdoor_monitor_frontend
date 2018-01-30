@@ -98,6 +98,7 @@ export function ifQrcode (_this) {
 */
 /* eslint-disable */
 export function compress (imgs, ratio) {
+  let phone = navigator.userAgent.indexOf('iPhone')
   var canvas, ctx, img64, scale, w, h,image
   if(Object.prototype.toString.call(imgs) === '[object Array]'){
     let arrTemp = []
@@ -115,10 +116,18 @@ export function compress (imgs, ratio) {
             h = that.height
             scale = w / h
             canvas = document.createElement('canvas')
-            canvas.width = w
-            canvas.height = h
+            canvas.width = h
+            canvas.height = w
             ctx = canvas.getContext('2d')
-            ctx.drawImage(image, 0, 0, w, h)
+            if(phone > -1){
+              ctx.save();
+              ctx.translate(h/2,w/2);
+              ctx.rotate(90*Math.PI/180)
+              ctx.drawImage(image, 0 - w/2, 0 - h/2, w, h)
+              ctx.restore()
+            }else{
+              ctx.drawImage(image, 0, 0, w, h)
+            }
             img64 = canvas.toDataURL('image/jpeg', ratio)
             resolve(img64)
           }
@@ -127,7 +136,6 @@ export function compress (imgs, ratio) {
       arrTemp.push(a)
     }
     let read = Promise.all(arrTemp)
-
     return read
   }else if(Object.prototype.toString.call(imgs) === '[object HTMLInputElement]'){
     let reader = new FileReader()
@@ -143,10 +151,18 @@ export function compress (imgs, ratio) {
           h = that.height
           scale = w / h
           canvas = document.createElement('canvas')
-          canvas.width = w
-          canvas.height = h
+          canvas.width = h
+          canvas.height = w
           ctx = canvas.getContext('2d')
-          ctx.drawImage(image, 0, 0, w, h)
+          if(phone > -1){
+            ctx.save();
+            ctx.translate(h/2,w/2);
+            ctx.rotate(90*Math.PI/180)
+            ctx.drawImage(image, 0 - w/2, 0 - h/2, w, h)
+            ctx.restore()
+          }else{
+            ctx.drawImage(image, 0, 0, w, h)
+          }
           img64 = canvas.toDataURL('image/jpeg', ratio)
           resolve(img64)
         }
