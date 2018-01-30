@@ -40,7 +40,7 @@ export default {
   name: 'Index',
   data () {
     return {
-      userType: '2',
+      userType: '1',
       selected: '任务'
     }
   },
@@ -50,6 +50,11 @@ export default {
     HeaderInner,
     News
   },
+  // watch: {
+  //   selected (val) {
+  //     alert(val)
+  //   }
+  // },
   methods: {
     getSelected () {
       this.selected = this.userType === '2' ? '咨询' : '任务'
@@ -57,7 +62,15 @@ export default {
   },
   activated () {
     this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
-    this.getSelected()
+    if (this.userType === '1') {
+      if (this.selected === '咨询') {
+        this.selected = '任务'
+      }
+    } else {
+      if (this.selected === '任务') {
+        this.selected = '咨询'
+      }
+    }
   },
   created () {
     this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
