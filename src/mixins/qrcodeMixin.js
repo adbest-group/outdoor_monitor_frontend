@@ -18,13 +18,15 @@ export default {
         // 执行上传操作
         let formData = new FormData()
         // formData.append('pic', file)
-        formData.append('pic', 'data')
+        console.log(data)
+        formData.append('pic', data)
         this.axios({
           url: GLOBAL.URL.GET_QRCODE,
           method: 'post',
           contentType: 'multipart/form-data',
           data: formData
         }).then((r) => {
+          console.log(r)
           let qrcode = r.ret.result
           // qrcode = {
           //   activity_name: '可口可乐2018新年投放95',
