@@ -22,6 +22,7 @@
               <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
           </div>
       </div>
+      <wrapper :if-display="ifDisplay"></wrapper>
   </div>
 </template>
 

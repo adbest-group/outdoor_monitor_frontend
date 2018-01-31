@@ -32,6 +32,7 @@
         </div>
     </div>
     <preview-img v-if="currentImgUrl" :img="currentImgUrl" @closePreview="closePreview"></preview-img>
+    <wrapper :if-display="ifDisplay"></wrapper>
   </div>
 </template>
 <script>

@@ -1,10 +1,14 @@
 import GLOBAL from '../config/global'
 import {compress} from '../config/utils'
+import Wrapper from '../components/wrapper.vue'
 export default {
   data () {
     return {
-
+      ifDisplay: true
     }
+  },
+  components: {
+    Wrapper
   },
   methods: {
     uploadWrap () {
@@ -14,6 +18,7 @@ export default {
     imgPhoto () {
       let input = this.$refs.firstInput
       let file = input
+      this.ifDisplay = false
       compress(file, 0.1).then((data) => {
         // 执行上传操作
         let formData = new FormData()
@@ -27,6 +32,7 @@ export default {
           data: formData
         }).then((r) => {
           console.log(r)
+          this.ifDisplay = true
           let qrcode = r.ret.result
           // qrcode = {
           //   activity_name: '可口可乐2018新年投放95',
@@ -39,6 +45,7 @@ export default {
           location.href = `${origin}/#/monitorInfo`
         }).catch((r) => {
           console.log(r)
+          this.ifDisplay = true
         })
       })
     }

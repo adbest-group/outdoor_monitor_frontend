@@ -19,6 +19,7 @@
           </div>
       </div>
     </template>
+    <wrapper :if-display="ifDisplay"></wrapper>
   </div>
 </template>
 <script>
