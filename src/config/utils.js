@@ -116,16 +116,19 @@ export function compress (imgs, ratio) {
             h = that.height
             scale = w / h
             canvas = document.createElement('canvas')
-            canvas.width = h
-            canvas.height = w
-            ctx = canvas.getContext('2d')
             if(phone > -1){
+              canvas.width = h
+              canvas.height = w
+              ctx = canvas.getContext('2d')
               ctx.save();
               ctx.translate(h/2,w/2);
               ctx.rotate(90*Math.PI/180)
               ctx.drawImage(image, 0 - w/2, 0 - h/2, w, h)
               ctx.restore()
             }else{
+              canvas.width = w
+              canvas.height = h
+              ctx = canvas.getContext('2d')
               ctx.drawImage(image, 0, 0, w, h)
             }
             img64 = canvas.toDataURL('image/jpeg', ratio)
@@ -151,16 +154,19 @@ export function compress (imgs, ratio) {
           h = that.height
           scale = w / h
           canvas = document.createElement('canvas')
-          canvas.width = h
-          canvas.height = w
-          ctx = canvas.getContext('2d')
           if(phone > -1){
+            canvas.width = h
+            canvas.height = w
+            ctx = canvas.getContext('2d')
             ctx.save();
             ctx.translate(h/2,w/2);
             ctx.rotate(90*Math.PI/180)
             ctx.drawImage(image, 0 - w/2, 0 - h/2, w, h)
             ctx.restore()
           }else{
+            canvas.width = w
+            canvas.height = h
+            ctx = canvas.getContext('2d')
             ctx.drawImage(image, 0, 0, w, h)
           }
           img64 = canvas.toDataURL('image/jpeg', ratio)
