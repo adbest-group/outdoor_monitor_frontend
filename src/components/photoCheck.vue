@@ -67,10 +67,17 @@ export default {
       this.currentImgUrl = this.currentTask.img_url_list[index - 1]
     }
   },
+  activated () {
+    if (this.$route.query.status) {
+      this.status = parseInt(this.$route.query.status)
+    }
+    // this.$store.commit('setCurrentType', '1')// 主线
+    sessionStorage.setItem('currentType', '1')
+  },
   created () {
     // console.log(this.$route.query)
     if (this.$route.query.status) {
-      this.status = this.$route.query.status
+      this.status = parseInt(this.$route.query.status)
     }
     // this.$store.commit('setCurrentType', '1')// 主线
     sessionStorage.setItem('currentType', '1')

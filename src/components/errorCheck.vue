@@ -59,11 +59,20 @@ export default {
       this.currentImgUrl = this.currentTask.img_url_list[index - 1]
     }
   },
+  activated () {
+    // console.log(this.$route.query)
+    if (this.$route.query.status) {
+      console.log(this.$route.query.status)
+      this.status = parseInt(this.$route.query.status)
+    }
+    // this.$store.commit('setCurrentType', '2')// 纠错
+    sessionStorage.setItem('currentType', '2')
+  },
   created () {
     // console.log(this.$route.query)
     if (this.$route.query.status) {
       console.log(this.$route.query.status)
-      this.status = this.$route.query.status
+      this.status = parseInt(this.$route.query.status)
     }
     // this.$store.commit('setCurrentType', '2')// 纠错
     sessionStorage.setItem('currentType', '2')
