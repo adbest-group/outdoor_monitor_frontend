@@ -2,16 +2,16 @@
   <div class="photoCheck">
     <div class="imgComtent clearfix" v-if="currentTask">
       <div class="imgWrapper">
-        <img :src="currentTask.img_url_list[0]" class="img" id="img1"/>
+        <img :src="currentTask.img_url_list[0]" @click="previewImg($event)" class="img" id="img1"/>
       </div>
       <div class="imgWrapper" style="margin-left:0.2rem">
-        <img :src="currentTask.img_url_list[1]" class="img" id="img2"/>
+        <img :src="currentTask.img_url_list[1]" @click="previewImg($event)" class="img" id="img2"/>
       </div>
       <div class="imgWrapper" style="margin-top:0.2rem">
-        <img :src="currentTask.img_url_list[2]" class="img" id="img3"/>
+        <img :src="currentTask.img_url_list[2]" @click="previewImg($event)" class="img" id="img3"/>
       </div>
       <div class="imgWrapper" style="margin-left:0.2rem;margin-top:0.2rem">
-        <img :src="currentTask.img_url_list[3]" class="img" id="img4"/>
+        <img :src="currentTask.img_url_list[3]" @click="previewImg($event)" class="img" id="img4"/>
       </div>
     </div>
     <div class="qrcodeInfo" v-if="currentTask">
@@ -31,16 +31,24 @@
             <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
         </div>
     </div>
-
+    <preview-img v-if="currentImgUrl" :img="currentImgUrl" @closePreview="closePreview"></preview-img>
   </div>
-
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
 
 import checkMixin from '../mixins/checkMixin'
 import qrcodeMixin from '../mixins/qrcodeMixin'
+import PreviewImg from '../components/previewImg'
 export default {
+  data () {
+    return {
+      currentImgUrl: ''
+    }
+  },
+  components: {
+    PreviewImg
+  },
   mixins: [checkMixin, qrcodeMixin],
   methods: {
     getReason (task) {
@@ -49,6 +57,14 @@ export default {
       } else {
         return '审核未通过'
       }
+    },
+    closePreview () {
+      this.currentImgUrl = ''
+    },
+    previewImg (event) {
+      let id = event.target.id
+      let index = Number.parseInt(id.substr(id.length - 1))
+      this.currentImgUrl = this.currentTask.img_url_list[index - 1]
     }
   },
   created () {

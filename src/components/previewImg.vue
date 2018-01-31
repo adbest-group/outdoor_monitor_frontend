@@ -28,13 +28,13 @@ export default {
     left:0;
     bottom:0;
     right:0;
+    animation:move 0.5s;
+    -webkit-animation:move 0.5s; /*Safari and Chrome*/
     img{
       width:100%;
       position: absolute;
       top:50%;
       transform: translateY(-50%);
-      animation:move 1s;
-      -webkit-animation:move 1s; /*Safari and Chrome*/
     }
     @keyframes move{
       from {opacity: 0;}
