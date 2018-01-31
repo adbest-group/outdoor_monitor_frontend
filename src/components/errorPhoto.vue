@@ -5,7 +5,7 @@
         <div class="imgWrapper">
           <div class="imgNone" :class="{ hide: img1Dis }" @click="imgClick(1)">
             <div class="imgNoneContent">
-              <p>远 景</p>
+              <p>纠 错</p>
               <p>+</p>
             </div>
           </div>
