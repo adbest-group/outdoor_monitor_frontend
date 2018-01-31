@@ -3,7 +3,7 @@
     <div class="currentCondition">当前状态：<span v-if="status === 1">等待处理</span><span v-if="status === 2 || status === 3">处理完成</span></div>
     <div class="imgComtent clearfix" v-if="currentTask">
       <div class="imgWrapper">
-        <img :src="currentTask.img_url_list[0]" class="img" id="img1"/>
+        <img :src="currentTask.img_url_list[0]" @click="previewImg($event)" class="img" id="img1"/>
       </div>
     </div>
     <div class="qrcodeInfo" v-if="currentTask">
@@ -22,21 +22,41 @@
             <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
         </div>
     </div> -->
+    <preview-img v-if="currentImgUrl" :img="currentImgUrl" @closePreview="closePreview"></preview-img>
   </div>
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
 import checkMixin from '../mixins/checkMixin'
 import qrcodeMixin from '../mixins/qrcodeMixin'
+import PreviewImg from '../components/previewImg'
 export default {
+  data () {
+    return {
+      currentImgUrl: ''
+    }
+  },
+  components: {
+    PreviewImg
+  },
   mixins: [checkMixin, qrcodeMixin],
   methods: {
     getReason (task) {
-      if (task.reason) {
-        return '问题反馈：' + task.reason
+      if (task.problem || task.problem_other) {
+        let a = task.problem ? task.problem : ''
+        let b = task.problem_other ? task.problem_other : ''
+        return '问题反馈：' + a + b
       } else {
         return '问题反馈'
       }
+    },
+    closePreview () {
+      this.currentImgUrl = ''
+    },
+    previewImg (event) {
+      let id = event.target.id
+      let index = Number.parseInt(id.substr(id.length - 1))
+      this.currentImgUrl = this.currentTask.img_url_list[index - 1]
     }
   },
   created () {
