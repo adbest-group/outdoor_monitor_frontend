@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="qrcodeInfo" v-if="currentTask">
-      <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
-      <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
-      <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
-      <mt-cell :title="getReason(currentTask)" is-link></mt-cell>
+      <mt-cell :title="currentTask.ad_activity_name"></mt-cell>
+      <mt-cell :title="currentTask.monitor_time"></mt-cell>
+      <mt-cell :title="currentTask.ad_location"></mt-cell>
+      <mt-cell :title="getReason(currentTask)"></mt-cell>
     </div>
      <!-- v-if="status === 1" -->
     <div>

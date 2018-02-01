@@ -15,12 +15,12 @@
       </div>
     </div>
     <div class="qrcodeInfo" v-if="currentTask">
-      <mt-cell :title="currentTask.ad_activity_name" is-link></mt-cell>
-      <mt-cell :title="currentTask.monitor_time" is-link></mt-cell>
-      <mt-cell :title="currentTask.ad_location" is-link></mt-cell>
-      <mt-cell v-if="status === 3" title="等待审核" is-link></mt-cell>
-      <mt-cell v-if="status === 4" title="审核通过" is-link></mt-cell>
-      <mt-cell v-if="status === 5" :title="getReason(currentTask)" is-link></mt-cell>
+      <mt-cell :title="currentTask.ad_activity_name"></mt-cell>
+      <mt-cell :title="currentTask.monitor_time"></mt-cell>
+      <mt-cell :title="currentTask.ad_location"></mt-cell>
+      <mt-cell v-if="status === 3" title="等待审核"></mt-cell>
+      <mt-cell v-if="status === 4" title="审核通过"></mt-cell>
+      <mt-cell v-if="status === 5" :title="getReason(currentTask)"></mt-cell>
     </div>
     <div v-if="status !== 5">
       <mt-button type="primary" @click.native="handleClick">返回</mt-button>

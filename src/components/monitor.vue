@@ -14,7 +14,7 @@
       <p class="text textTwo"><span>--需监测广告位--</span></p>
       <p class="content"><span>{{currentTask.ad_location}}</span></p>
       <div>
-          <div class="qr-btn" @click="uploadWrap()">监测
+          <div class="qr-btn" @click="uploadWrap()">拍照监测
               <input ref="firstInput" node-type="jsbridge" type="file" @change="imgPhoto()" value="扫描二维码" accept="image/*" capture="camera" />
           </div>
       </div>

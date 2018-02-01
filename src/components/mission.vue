@@ -2,7 +2,7 @@
   <div class="mission">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">待执行</mt-tab-item>
-      <mt-tab-item id="2">执行中</mt-tab-item>
+      <mt-tab-item id="2">审核中</mt-tab-item>
       <mt-tab-item id="3">已审核</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
