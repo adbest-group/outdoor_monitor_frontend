@@ -13,13 +13,13 @@
 <script>
 import { MessageBox } from 'mint-ui'
 import GLOBAL from '../config/global'
-// testkh@adbest.com
-// 68755498@qq.com
+// monitor@adbest.com
+// customer@adbest.com
 export default {
   data () {
     return {
       form: {
-        username: '68755498@qq.com',
+        username: 'monitor@adbest.com',
         password: '123456',
         captcha: ''
       },

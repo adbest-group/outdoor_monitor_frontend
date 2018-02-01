@@ -5,7 +5,8 @@ const URL = {
   TASK_SUBMIT: '/api/tasksubmit', // 监测、纠错任务提交
   GET_REWARD: '/api/getreward', // 奖励查看
   GET_NEWS: '/api/activity', // 咨询列表获取
-  GET_QRCODE: '/api/qrcodeanalysis' // 获取二维码信息
+  GET_QRCODE: '/api/qrcodeanalysis', // 获取二维码信息
+  LOGOUT: '/api/logout'// 退出登陆
 }
 export default{
   URL

@@ -1,10 +1,20 @@
 <template>
   <div class="header clearfix">
-    <div class="companyInfo"><i class="icon iconfont icon-gongsixinxi"></i><p class="realName">{{this.realName}}</p><p class="company">{{this.company}}</p></div><span v-if="userType === '1'" class="awardInfo"><i class="iconfont icon-jiangpin" @click="toLink"></i></span>
+    <div class="companyInfo">
+      <i class="icon iconfont icon-gongsixinxi"></i>
+      <p class="realName">{{this.realName}}</p>
+      <p class="company">{{this.company}}</p>
+    </div>
+    <span @click="logout" class="quit">退出</span>
+    <span v-if="userType === '1'" class="awardInfo">
+      <i class="iconfont icon-jiangpin" @click="toLink"></i>
+    </span>
   </div>
 </template>
 
 <script>
+import GLOBAL from '../config/global'
+import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
@@ -17,11 +27,36 @@ export default {
     toLink () {
       this.$router.push('/reward')
     },
+    logout () {
+      MessageBox({
+        title: '确认',
+        message: '确认退出登陆么?',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then((val, action) => {
+        if (val === 'confirm') { // 确定退出
+          this.quit()
+        } else { // 取消
+          console.log('取消')
+        }
+      })
+    },
     getInfo () {
       let currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
       this.realName = currentUser.realName
       this.company = currentUser.company
       this.userType = currentUser.userType
+    },
+    quit () {
+      this.axios({
+        url: GLOBAL.URL.LOGOUT,
+        method: 'post'
+      }).then((r) => {
+        console.log('登出信息', r)
+        sessionStorage.clear()
+        this.$router.push('/login')
+      })
     }
   },
   activated () {
@@ -63,6 +98,12 @@ export default {
     .awardInfo{
       color:#fff;
       float:right;
+
+    }
+    .quit{
+      float:right;
+      color:#fff;
+      margin-left:0.2rem;
     }
   }
 </style>
