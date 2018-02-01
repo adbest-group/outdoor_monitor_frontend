@@ -2,7 +2,7 @@
   <div class="error">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">已提交纠错</mt-tab-item>
-      <mt-tab-item id="3" v-if="userType === '2'">已处理完成</mt-tab-item>
+      <mt-tab-item id="3">已处理完成</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">
@@ -69,11 +69,11 @@ export default {
   activated () {
     this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
     sessionStorage.setItem('currentType', '2')
-    if (this.userType === '1') {
-      if (this.selected === '3') {
-        this.selected = '1'
-      }
-    }
+    // if (this.userType === '1') {
+    //   if (this.selected === '3') {
+    //     this.selected = '1'
+    //   }
+    // }
     this.getTaskList()
   },
   created () {
