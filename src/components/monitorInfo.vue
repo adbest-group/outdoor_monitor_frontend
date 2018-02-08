@@ -1,92 +1,72 @@
 <template>
   <div class="monitorInfo">
     <back-up></back-up>
-    <div class="alertContnet">
-      <span class="closeBtn" @click="close">X</span>
+    <p class="text"><span>--广告活动画面--</span></p>
+    <template v-if="currentTask">
       <div class="img">
-        <template v-if="qrcode">
-          <img :src="qrcode.pic_url" alt="">
-        </template>
+        <img :src="currentTask.pic_url" alt="">
       </div>
-      <p class="text">该位置正确上刊画面</p>
-      <mt-button type="primary" @click.native="handleClick">确定</mt-button>
-    </div>
+      <p class="text"><span>--活动名称--</span></p>
+      <p class="content"><span>{{currentTask.activity_name}}</span></p>
+      <p class="text textTwo"><span>--需监测广告位--</span></p>
+      <p class="content"><span>{{currentTask.ad_seat_name}}</span></p>
+    </template>
+    <div class="btn"><mt-button type="primary" @click.native="handleClick">确定</mt-button></div>
   </div>
 </template>
 <script>
 import BackUp from './backUp.vue'
-import { ifQrcode } from '../config/utils'
 export default {
   data () {
     return {
-      qrcode: null// 二维码中的json格式的信息
+
     }
   },
-  methods: {
-    handleClick () {
-      // let type = this.$store.getters.getCurrentType
-      let type = sessionStorage.getItem('currentType')
-      if (type === '1') { // 主线任务
-        this.$router.push({path: '/photo'})
-      } else if (type === '2') { // 纠错任务
-        this.$router.push({path: '/errorPhoto'})
-      }
-    },
-    close () {
-      history.back(-1)
+  computed: {
+    currentTask () {
+      return JSON.parse(sessionStorage.getItem('currentTask'))
     }
   },
   components: {
     BackUp
   },
+  methods: {
+    handleClick () {
+      this.$router.push('/errorPhoto')
+    }
+  },
   created () {
-    ifQrcode(this)
+  },
+  mounted () {
   }
 }
 </script>
 <style lang="scss" scoped>
 .monitorInfo{
-  background:rgba(102, 102, 102, 1);
-  width:100%;
-  height:100%;
-  position: relative;
-  .alertContnet{
-    position: absolute;
-    top:50%;
-    background:#fff;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width:5.3rem;
-    height: 8rem;
-    padding:0.6rem 0.52rem 0.4rem;
-    .closeBtn{
-      position: absolute;
-      right: 0;
-      top:0;
-      width:.56rem;
-      height: .56rem;
-      text-align: center;
-      line-height: .56rem;
-    }
-    .img{
-      width:4.20rem;
-      height:5.54rem;
-      img{
-        width:100%;
-        height:100%;
-      }
-    }
-    .text{
-      text-align: center;
-      height: 1rem;
-      line-height: 1rem;
-      font-size:.24rem;
-    }
-    .mint-button{
+  text-align: center;
+  .text,.content{
+    text-align: center;
+    height: 0.6rem;
+    line-height:0.6rem;
+  }
+  .text{
+    color:#999;
+  }
+  .mint-button{
+    width:100%;
+    height:.56rem;
+  }
+  .img{
+    display: inline-block;
+    width:4.50rem;
+    height:4.92rem;
+    img{
       width:100%;
-      height:.56rem;
+      height:100%;
     }
   }
+  .btn{
+    padding:0 0.64rem;
+  }
 }
-
 </style>

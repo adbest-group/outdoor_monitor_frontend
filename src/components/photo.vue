@@ -3,44 +3,44 @@
     <div class="div" v-show="!questionDetail">
       <div class="imgComtent clearfix">
         <div class="imgWrapper">
-          <div class="imgNone" :class="{ hide: img1Dis }" @click="imgClick(1)">
+          <div class="imgNone" :class="{ hide: imgBase64Arr[0] }" @click="imgClick(1)">
             <div class="imgNoneContent">
               <p>远 景</p>
               <p>+</p>
             </div>
           </div>
           <input class="input" id="fileBtn1" type="file" @change="upload('#fileBtn1', '#img1');" accept="image/*" capture="camera"/>
-          <img @click="imgClick(1)" src="" class="img" id="img1"/>
+          <img @click="imgClick(1)" :src="imgBase64Arr[0]" class="img" id="img1"/>
         </div>
         <div class="imgWrapper" style="margin-left:0.2rem">
-          <div class="imgNone" :class="{ hide: img2Dis }" @click="imgClick(2)">
+          <div class="imgNone" :class="{ hide: imgBase64Arr[1] }" @click="imgClick(2)">
             <div class="imgNoneContent">
               <p>近 景</p>
               <p>+</p>
             </div>
           </div>
           <input class="input" id="fileBtn2" type="file" @change="upload('#fileBtn2', '#img2');" accept="image/*" capture="camera"/>
-          <img @click="imgClick(2)" src="" class="img" id="img2"/>
+          <img @click="imgClick(2)" :src="imgBase64Arr[1]" class="img" id="img2"/>
         </div>
         <div class="imgWrapper" style="margin-top:0.2rem">
-          <div class="imgNone" :class="{ hide: img3Dis }" @click="imgClick(3)">
+          <div class="imgNone" :class="{ hide: imgBase64Arr[2] }" @click="imgClick(3)">
             <div class="imgNoneContent">
               <p>夜 景</p>
               <p>+</p>
             </div>
           </div>
           <input class="input" id="fileBtn3" type="file" @change="upload('#fileBtn3', '#img3');" accept="image/*" capture="camera"/>
-          <img  @click="imgClick(3)" src="" class="img" id="img3"/>
+          <img  @click="imgClick(3)" :src="imgBase64Arr[2]" class="img" id="img3"/>
         </div>
         <div class="imgWrapper" style="margin-left:0.2rem;margin-top:0.2rem">
-          <div class="imgNone" :class="{ hide: img4Dis }" @click="imgClick(4)">
+          <div class="imgNone" :class="{ hide: imgBase64Arr[3] }" @click="imgClick(4)">
             <div class="imgNoneContent">
               <p>编 号</p>
               <p>+</p>
             </div>
           </div>
           <input class="input" id="fileBtn4" type="file" @change="upload('#fileBtn4', '#img4');" accept="image/*" capture="camera"/>
-          <img @click="imgClick(4)" src="" class="img" id="img4"/>
+          <img @click="imgClick(4)" :src="imgBase64Arr[3]" class="img" id="img4"/>
         </div>
       </div>
       <div class="qrcodeInfo" v-if="currentTask">
@@ -75,9 +75,6 @@ export default {
       img2Dis: false,
       img3Dis: false,
       img4Dis: false,
-      imgArr: [], // 存放四张图片//暂时无用
-      token: '',
-      userId: '',
       questionDetail: false,
       value: [],
       otherQuestion: '',
@@ -104,16 +101,15 @@ export default {
       let length = c.length - 1
       let index = c.substr(length, 1)
       // 同时放入本地临时数组中
-      _this.imgArr[index - 1] = file
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = function (e) {
-        $d.setAttribute('src', e.target.result)
-        let str = (d + 'Dis').substr(1)
-        _this[str] = true
-        let doc = document.querySelector('#fileBtn' + index)
-        compress(doc, 0.01).then(data => {
-          _this.imgBase64Arr[index - 1] = data
+        compress($c, 0.01).then(data => {
+          $d.setAttribute('src', data)
+          // let str = (d + 'Dis').substr(1)
+          // _this[str] = true
+          // _this.imgBase64Arr[index - 1] = data
+          _this.$set(_this.imgBase64Arr, index - 1, data)
         })
       }
     },
@@ -122,7 +118,7 @@ export default {
       input.click()
     },
     checkImg () {
-      if (this.imgArr.length !== 4) {
+      if (!this.imgBase64Arr.length) {
         // 提交前看一下图片是否是四张
         MessageBox({
           title: '照片不全',
@@ -144,8 +140,12 @@ export default {
       formData.append('lat', '')
       formData.append('problem', this.value.join(','))
       formData.append('other', this.otherQuestion)
-      for (let i = 0; i < this.imgBase64Arr.length; i++) {
-        formData.append('pic' + (i + 1), this.imgBase64Arr[i])
+      for (let i = 0; i < 4; i++) {
+        if (this.imgBase64Arr[i]) {
+          formData.append('pic' + (i + 1), this.imgBase64Arr[i])
+        } else {
+          formData.append('pic' + (i + 1), '1')
+        }
       }
       return new Promise((resolve, reject) => {
         if (this.isCommit) {
@@ -167,10 +167,6 @@ export default {
           reject(r)
         })
       })
-      // formData.append('token', this.token)
-      // formData.append('activity_id', '234')
-      // formData.append('ad_location_id', '123')
-      // formData.append('user_id', this.userId)
     },
     handleClickWithQues () { // 带问题提交任务
       this.taskSubmit().then(data => {
@@ -220,9 +216,11 @@ export default {
     }
   },
   created () {
-    this.userId = JSON.parse(sessionStorage.getItem('currentUser')).userId
-    // this.token = this.$store.getters.getToken
-    this.taskId = JSON.parse(sessionStorage.getItem('currentTask')).task_id
+    let currentTask = JSON.parse(sessionStorage.getItem('currentTask'))
+    this.taskId = currentTask.task_id
+    if (currentTask.img_url_list) {
+      this.imgBase64Arr = currentTask.img_url_list
+    }
   }
 }
 </script>

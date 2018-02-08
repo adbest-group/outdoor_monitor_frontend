@@ -2,8 +2,9 @@
   <div class="mission">
     <mt-navbar v-model="selected">
       <mt-tab-item id="1">待执行</mt-tab-item>
-      <mt-tab-item id="2">审核中</mt-tab-item>
-      <mt-tab-item id="3">已审核</mt-tab-item>
+      <mt-tab-item id="2">未完成</mt-tab-item>
+      <mt-tab-item id="3">审核中</mt-tab-item>
+      <mt-tab-item id="4">已审核</mt-tab-item>
     </mt-navbar>
 <!-- tab-container -->
     <mt-tab-container v-model="selected">
@@ -16,10 +17,14 @@
         <list-cell  v-if="taskList.wait_to_executed" :list='taskList.wait_to_executed'></list-cell>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
+        <!-- 未完成列表 -->
+        <list-cell v-if="taskList.un_finished" :list='taskList.un_finished'></list-cell>
+      </mt-tab-container-item>
+      <mt-tab-container-item id="3">
         <!-- 执行中列表 -->
         <list-cell v-if="taskList.executing" :list='taskList.executing'></list-cell>
       </mt-tab-container-item>
-      <mt-tab-container-item id="3" class="verifiedMission">
+      <mt-tab-container-item id="4" class="verifiedMission">
         <!-- 已审核列表 -->
         <el-select class="condition" v-model="value" placeholder="请选择">
           <el-option
@@ -60,7 +65,8 @@ export default {
       taskList: {// 主任务列表假数据
       },
       userId: '',
-      token: ''
+      token: '',
+      userType: '1'
     }
   },
   watch: {
@@ -104,7 +110,9 @@ export default {
     this.getTaskList()
   },
   created () {
-    this.userId = JSON.parse(sessionStorage.getItem('currentUser')).userId
+    let currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
+    this.userId = currentUser.userId
+    this.userType = currentUser.userType
     // this.token = this.$store.getters.getToken
     this.getTaskList()
   }

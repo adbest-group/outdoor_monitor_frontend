@@ -9,6 +9,7 @@ import PhotoCheck from '@/components/photoCheck'
 import ErrorCheck from '@/components/errorCheck'
 import ErrorPhoto from '@/components/errorPhoto'
 import Reward from '@/components/reward'
+import ErrorSelectTask from '@/components/errorSelectTask'
 
 Vue.use(Router)
 
@@ -62,6 +63,11 @@ export default new Router({
       path: '/reward',
       name: 'Reward',
       component: Reward
+    },
+    {
+      path: '/errorSelectTask',
+      name: 'ErrorSelectTask',
+      component: ErrorSelectTask
     }
   ]
 })

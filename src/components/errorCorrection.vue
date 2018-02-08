@@ -69,11 +69,6 @@ export default {
   activated () {
     this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
     sessionStorage.setItem('currentType', '2')
-    // if (this.userType === '1') {
-    //   if (this.selected === '3') {
-    //     this.selected = '1'
-    //   }
-    // }
     this.getTaskList()
   },
   created () {

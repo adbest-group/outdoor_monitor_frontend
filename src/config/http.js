@@ -2,6 +2,7 @@ import axios from 'axios'
 // import qs from 'qs'
 import { Toast } from 'mint-ui'
 // import Cookies from 'js-cookie'
+import router from '../router'
 
 const Axios = axios.create({
   baseURL: '/',
@@ -45,6 +46,13 @@ Axios.interceptors.response.use(
   res => {
     if (res.data.code === 500) {
       Toast(res.data.msg)
+    }
+    console.log(res)
+    if (res.data.ret) {
+      if (res.data.ret.code === 103) { // 未登录或者登陆超时
+        sessionStorage.clear()
+        router.push({path: '/login'})
+      }
     }
     return Promise.resolve(res.data)
   }, error => {

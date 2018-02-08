@@ -23,7 +23,7 @@
         <!-- <img slot="icon" src="../assets/logo.png"> -->
         任务
       </mt-tab-item>
-      <mt-tab-item id="纠错">
+      <mt-tab-item id="纠错" v-if="userType === '1'|| userType === '2'">
         <!-- <img slot="icon" src="../assets/logo.png"> -->
         纠错
       </mt-tab-item>
@@ -62,15 +62,15 @@ export default {
   },
   activated () {
     this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType
-    if (this.userType === '1') {
-      if (this.selected === '咨询') {
-        this.selected = '任务'
-      }
-    } else {
-      if (this.selected === '任务') {
-        this.selected = '咨询'
-      }
-    }
+    // if (this.userType === '1') {
+    //   if (this.selected === '咨询') {
+    //     this.selected = '任务'
+    //   }
+    // } else {
+    //   if (this.selected === '任务') {
+    //     this.selected = '咨询'
+    //   }
+    // }
   },
   created () {
     this.userType = JSON.parse(sessionStorage.getItem('currentUser')).userType

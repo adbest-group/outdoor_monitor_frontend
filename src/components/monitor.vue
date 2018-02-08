@@ -3,7 +3,7 @@
     <p class="text"><span>--广告活动画面--</span></p>
     <template v-if="currentTask">
       <div class="img">
-        <img :src="currentTask.img_url_list[0]" alt="">
+        <img :src="currentTask.sample_url" alt="">
       </div>
       <p class="text"><span>--广告名称--</span></p>
       <p class="content"><span>{{currentTask.ad_activity_name}}</span></p>
@@ -51,6 +51,9 @@ export default {
   },
   methods: {
 
+  },
+  created () {
+    sessionStorage.setItem('currentType', '1')// 监测类型
   },
   mounted () {
     // initBtn()

@@ -23,13 +23,12 @@
         </div>
     </div> -->
     <preview-img v-if="currentImgUrl" :img="currentImgUrl" @closePreview="closePreview"></preview-img>
-    <wrapper :if-display="ifDisplay"></wrapper>
+    <!-- <wrapper :if-display="ifDisplay"></wrapper> -->
   </div>
 </template>
 <script>
 // import { MessageBox } from 'mint-ui'
 import checkMixin from '../mixins/checkMixin'
-import qrcodeMixin from '../mixins/qrcodeMixin'
 import PreviewImg from '../components/previewImg'
 export default {
   data () {
@@ -40,7 +39,7 @@ export default {
   components: {
     PreviewImg
   },
-  mixins: [checkMixin, qrcodeMixin],
+  mixins: [checkMixin],
   methods: {
     getReason (task) {
       if (task.problem || task.problem_other) {

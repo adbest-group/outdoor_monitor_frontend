@@ -57,6 +57,7 @@ export default {
           let currentUser = {}
           currentUser.userId = data.userId
           currentUser.userType = data.usertype.toString()
+          // currentUser.userType = '3'
           currentUser.company = data.company
           currentUser.realName = data.realname
           // this.$store.commit('setCurrentUser', currentUser)

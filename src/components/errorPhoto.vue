@@ -13,10 +13,10 @@
           <img @click="imgClick(1)" src="" class="img" id="img1"/>
         </div>
       </div>
-      <div class="qrcodeInfo" v-if="qrcode">
-        <mt-cell :title="qrcode.activity_name" is-link></mt-cell>
+      <div class="qrcodeInfo" v-if="currentTask">
+        <mt-cell :title="currentTask.activity_name" is-link></mt-cell>
         <mt-cell :title="currentTime" is-link></mt-cell>
-        <mt-cell :title="qrcode.ad_seat_name" is-link></mt-cell>
+        <mt-cell :title="currentTask.ad_seat_name" is-link></mt-cell>
       </div>
       <mt-button type="primary" :class="{greyBackground:isCommit}" @click.native="handleClick">{{confirm}}</mt-button>
     </div>
@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { ifQrcode, compress } from '../config/utils'
+import { compress } from '../config/utils'
 import { MessageBox } from 'mint-ui'
 import GLOBAL from '../config/global'
 // import checkMixin from '../mixins/checkMixin'
@@ -45,14 +45,13 @@ export default {
       img2Dis: false,
       img3Dis: false,
       img4Dis: false,
-      imgArr: [], // 存放四张图片,
-      qrcode: null,
       questionDetail: false,
       value: [],
       otherQuestion: '',
       isCommit: false,
       confirm: '确定',
-      submit: '提交'
+      submit: '提交',
+      imgBase64Arr: []// 存放四张图片的base64格式
     }
   },
   // mixins: [checkMixin],
@@ -65,13 +64,15 @@ export default {
       let length = c.length - 1
       let index = c.substr(length, 1)
       // 同时放入本地临时数组中
-      _this.imgArr[index - 1] = file
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = function (e) {
-        $d.setAttribute('src', e.target.result)
-        let str = (d + 'Dis').substr(1)
-        _this[str] = true
+        compress($c, 0.01).then(data => {
+          $d.setAttribute('src', data)
+          let str = (d + 'Dis').substr(1)
+          _this[str] = true
+          _this.imgBase64Arr[index - 1] = data
+        })
       }
     },
     imgClick (val) {
@@ -79,9 +80,7 @@ export default {
       input.click()
     },
     checkImg () {
-      if (this.imgArr.length !== 1) {
-        // 提交前看一下图片是否是1张
-        console.log(this.imgArr)
+      if (this.imgBase64Arr.length !== 1) {
         MessageBox({
           title: '照片不全',
           message: '必须拍1张照片！',
@@ -95,42 +94,34 @@ export default {
       }
     },
     taskSubmit () { // 任务提交方法
-      console.log('length', this.imgArr)
       let formData = new FormData()
-      let docs = []// 存放一张照片
-      for (let i = 1; i < 2; i++) {
-        let doc = document.querySelector('#fileBtn' + i)
-        docs.push(doc)
-      }
-      formData.append('type', '2')// 1 代表监测任务 2 代表纠错任务
-      formData.append('ad_activity_seat_id', this.qrcode.ad_activity_seat_id)
+      formData.append('type', '2')// 2 代表纠错任务
+      formData.append('ad_activity_seat_id', this.currentTask.ad_activity_seat_id)
       formData.append('lon', '')
       formData.append('lat', '')
       formData.append('problem', this.value.join(','))
       formData.append('other', this.otherQuestion)
-      if (this.isCommit) { // 是否已经点击提交
-        return false
+      for (let i = 0; i < this.imgBase64Arr.length; i++) {
+        formData.append('pic' + (i + 1), this.imgBase64Arr[i])
       }
-      this.isCommit = true
-      this.submit = '正在提交，请稍后...'
-      this.confirm = '正在提交，请稍后...'
       return new Promise((resolve, reject) => {
-        compress(docs, 0.01).then(datas => {
-          for (let i = 1; i < 5; i++) {
-            formData.append('pic' + i, datas[i - 1])
-          }
-          this.axios({
-            url: GLOBAL.URL.TASK_SUBMIT,
-            method: 'post',
-            contentType: 'multipart/form-data',
-            data: formData
-          }).then((r) => {
-            console.log('提交任务后返回的:', r)
-            resolve(r.ret)
-          }).catch((r) => {
-            console.log(r)
-            reject(r)
-          })
+        if (this.isCommit) {
+          return false
+        }
+        this.isCommit = true
+        this.confirm = '正在上传，请稍后...'
+        this.submit = '正在上传，请稍后...'
+        this.axios({
+          url: GLOBAL.URL.TASK_SUBMIT,
+          method: 'post',
+          contentType: 'multipart/form-data',
+          data: formData
+        }).then((r) => {
+          console.log('提交任务后返回的:', r)
+          resolve(r.ret)
+        }).catch((r) => {
+          console.log(r)
+          reject(r)
         })
       })
     },
@@ -159,11 +150,13 @@ export default {
   computed: {
     currentTime () {
       return moment().format('YYYY-MM-DD HH:mm:ss')
+    },
+    currentTask () {
+      return JSON.parse(sessionStorage.getItem('currentTask'))
     }
   },
   created () {
-    ifQrcode(this)
-    console.log(this.qrcode)
+
   }
 }
 </script>

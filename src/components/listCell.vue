@@ -5,7 +5,7 @@
         <li
           class="cell"
           :key="cell.task_id"
-          @click="toLink(cell.ad_status,cell)" v-if="cell.ad_status === 4 && isChecked !=='3' || cell.ad_status === 5 && isChecked !=='2' || cell.ad_status === 1 || cell.ad_status === 2 || cell.ad_status === 3">
+          @click="toLink(cell.ad_status,cell)" v-if="cell.ad_status === 4 && isChecked !=='3' || cell.ad_status === 5 && isChecked !=='2' || cell.ad_status === 1 || cell.ad_status === 6 || cell.ad_status === 2 || cell.ad_status === 3">
 
           <div v-if="showStatus(cell.ad_status)"
               class="ad-status"
@@ -15,7 +15,7 @@
           <div class="ad-name" v-if="type ===1">({{cell.task_type_text}}) {{cell.ad_name}}</div>
           <div class="ad-name" v-else>({{cell.monitor_time}}) {{cell.ad_name}}</div>
           <div class="ad-see">
-            {{cell.ad_status === 2 && type === 1 ? '监测' : '查看'}}
+            {{(cell.ad_status === 2 || cell.ad_status === 6) && type === 1 ? '监测' : '查看'}}
             <span class="el-icon-arrow-right"></span>
           </div>
         </li>
@@ -42,12 +42,9 @@ export default {
   },
   methods: {
     toLink (status, cell) { // 跳转链接
-      // this.$store.commit('setCurrentTask', cell)// 保存当前的任务(无论是主线（监测）任务，还是纠错任务)
       sessionStorage.setItem('currentTask', JSON.stringify(cell))
       if (this.type === 1) {
-        if (status === 2) { // 监测
-          // this.$store.commit('setCurrentType', '1')
-          sessionStorage.setItem('currentType', '1')
+        if (status === 2 || status === 6) { // 监测
           this.$router.push({path: '/monitor'})
         } else {
           this.$router.push({path: '/photoCheck', query: {'status': status}})
@@ -86,7 +83,7 @@ export default {
       }
     },
     showStatus (status) { // 是否显示审核结果
-      if (this.type === 1 && (status === 4 || status === 5)) {
+      if (this.type === 1 && (status === 4 || status === 5 || status === 6)) {
         return true
       } else if (this.type === 2 && (status === 3 || status === 2)) {
         return true
